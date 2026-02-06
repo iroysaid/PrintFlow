@@ -39,7 +39,11 @@
                     <tbody>
                         <?php foreach($transactions as $t): ?>
                         <tr>
-                            <td class="ps-4 fw-bold"><?= $t['no_invoice'] ?></td>
+                            <td class="ps-4 fw-bold">
+                                <a href="/pos/printInvoice/<?= $t['id'] ?>?from=history" target="_blank" class="text-decoration-none" title="Lihat Nota">
+                                    <?= $t['no_invoice'] ?>
+                                </a>
+                            </td>
                             <td class="text-muted"><?= date('d M Y H:i', strtotime($t['tgl_masuk'])) ?></td>
                             <td>
                                 <div class="fw-bold"><?= esc($t['customer_name']) ?></div>
