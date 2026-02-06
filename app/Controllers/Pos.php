@@ -69,6 +69,13 @@ class Pos extends BaseController
             $phone = preg_replace('/[^0-9]/', '', $json->customer->no_hp ?? '');
             $name  = htmlspecialchars(strip_tags($json->customer->nama_customer ?? 'Guest'));
             
+            // Strict Validation
+            if (empty($json->items)) {
+                return $this->response->setStatusCode(400)->setJSON(['status' => 'error', 'message' => 'Keranjang Belanja masih kosong!']);
+            }
+            if (empty($name) || $name === 'Guest' || empty($phone)) {
+                 return $this->response->setStatusCode(400)->setJSON(['status' => 'error', 'message' => 'Data Pelanggan (Nama & No HP) Wajib Diisi!']);
+            }
             if (strlen($phone) < 10) {
                 return $this->response->setStatusCode(400)->setJSON(['status' => 'error', 'message' => 'Nomor HP harus angka & minimal 10 digit!']);
             }
