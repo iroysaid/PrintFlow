@@ -248,7 +248,7 @@
         <header class="invoice-header">
             <div class="brand">
                 <h1><i class="fas fa-print"></i> Wise Printing</h1>
-                <p>Digital Printing Solution<br>Jl. Merdeka No. 45, Jakarta Pusat<br>WA: 0812-3456-7890</p>
+                <p>JL. MULAWARMAN NO.44 RT.48 MANGGAR BARU BALIKPAPAN TIMUR<br>WA: 0812-3456-7890</p>
             </div>
             <div class="invoice-title">
                 <h2>INVOICE</h2>

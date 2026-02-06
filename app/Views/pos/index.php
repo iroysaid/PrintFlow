@@ -44,7 +44,7 @@
             <h5 class="fw-bold mb-3"><i class="fas fa-user-edit me-2 text-primary"></i>Customer Info</h5>
             <div class="input-group mb-2">
                 <span class="input-group-text bg-light border-0"><i class="fas fa-phone"></i></span>
-                <input type="text" x-model="customer.no_hp" @input="searchCustomer()" @click.away="showCustomerDropdown = false" class="form-control bg-light border-0" placeholder="Phone (10-14 digit)" maxlength="14">
+                <input type="text" x-model="customer.no_hp" @input="customer.no_hp = customer.no_hp.replace(/[^0-9]/g, ''); searchCustomer(customer.no_hp)" @click.away="showCustomerDropdown = false" class="form-control bg-light border-0" placeholder="Phone (10-14 digit)" maxlength="14">
             </div>
             
             <!-- Autocomplete Dropdown -->
@@ -61,7 +61,7 @@
                 </ul>
             </div>
 
-            <input type="text" x-model="customer.nama_customer" class="form-control bg-light border-0" placeholder="Customer Name">
+            <input type="text" x-model="customer.nama_customer" @input="searchCustomer(customer.nama_customer)" class="form-control bg-light border-0" placeholder="Customer Name">
         </div>
 
         <!-- Cart Items -->
@@ -272,17 +272,14 @@ function posApp() {
         },
 
         // Autocomplete Search
-        searchCustomer() {
-            // Numeric filter
-            this.customer.no_hp = this.customer.no_hp.replace(/[^0-9]/g, '');
-            
-            if(this.customer.no_hp.length < 3) {
+        searchCustomer(term) {
+            if(!term || term.length < 3) {
                 this.customerList = [];
                 this.showCustomerDropdown = false;
                 return;
             }
 
-            fetch(`/pos/searchCustomer?term=${this.customer.no_hp}`)
+            fetch(`/pos/searchCustomer?term=${term}`)
                 .then(res => res.json())
                 .then(data => {
                     this.customerList = data;
