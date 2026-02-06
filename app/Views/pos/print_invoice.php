@@ -47,11 +47,7 @@
             color: #64748b;
             font-size: 0.9rem;
         }
-    </style>
-</head>
-<body>
 
-    <div class="container invoice-container">
         
         /* Header */
         .invoice-header {
