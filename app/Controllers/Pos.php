@@ -273,4 +273,29 @@ class Pos extends BaseController
             'items'       => $items,
         ]);
     }
+    public function deleteTransaction($id)
+    {
+        $db = \Config\Database::connect();
+        $db->transStart();
+
+        try {
+            // Delete details first (cascade usually handles this but manual is safer)
+            $this->transactionDetailModel->where('transaction_id', $id)->delete();
+            
+            // Delete header
+            $this->transactionModel->delete($id);
+
+            $db->transComplete();
+
+            if ($db->transStatus() === false) {
+                 return redirect()->to('/pos/history')->with('error', 'Gagal menghapus transaksi.');
+            }
+
+            return redirect()->to('/pos/history')->with('success', 'Transaksi berhasil dihapus.');
+
+        } catch (\Exception $e) {
+            $db->transRollback();
+            return redirect()->to('/pos/history')->with('error', 'Error: ' . $e->getMessage());
+        }
+    }
 }

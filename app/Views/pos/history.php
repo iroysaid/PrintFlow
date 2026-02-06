@@ -58,9 +58,18 @@
                             </td>
                             <td class="text-primary fw-bold">Rp <?= number_format($t['grand_total'], 0, ',', '.') ?></td>
                             <td class="text-end pe-4">
-                                <a href="/pos/printInvoice/<?= $t['id'] ?>?from=history" target="_blank" class="btn btn-sm btn-outline-primary" title="Lihat Nota">
-                                    <i class="fas fa-file-invoice"></i> Nota
-                                </a>
+                                <div class="btn-group">
+                                    <a href="/pos/printInvoice/<?= $t['id'] ?>?from=history" target="_blank" class="btn btn-sm btn-outline-primary" title="Lihat Nota">
+                                        <i class="fas fa-file-invoice"></i>
+                                    </a>
+                                    <!-- Edit Button (For future implementation or simple status update) -->
+                                    <!-- <a href="/pos/editTransaction/<?= $t['id'] ?>" class="btn btn-sm btn-outline-warning" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a> -->
+                                    <button onclick="confirmDelete(<?= $t['id'] ?>)" class="btn btn-sm btn-outline-danger" title="Hapus">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -76,4 +85,11 @@
     </div>
 </div>
 
+<script>
+    function confirmDelete(id) {
+        if(confirm('Apakah Anda yakin ingin menghapus transaksi ini? Data yang dihapus tidak dapat dikembalikan.')) {
+            window.location.href = '/pos/deleteTransaction/' + id;
+        }
+    }
+</script>
 <?= $this->endSection() ?>

@@ -20,6 +20,9 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
     $routes->get('pos/checkCustomer', 'Pos::checkCustomer');
     $routes->post('pos/saveTransaction', 'Pos::saveTransaction');
     $routes->get('pos/printInvoice/(:num)', 'Pos::printInvoice/$1');
+    $routes->get('pos/searchCustomer', 'Pos::searchCustomer');
+    $routes->get('pos/getCustomerHistory', 'Pos::getCustomerHistory');
+    $routes->get('pos/deleteTransaction/(:num)', 'Pos::deleteTransaction/$1');
     $routes->get('report/weekend', 'Report::weekend');
 
     // Admin Routes
