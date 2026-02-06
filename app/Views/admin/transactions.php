@@ -24,12 +24,13 @@
                         <tr>
                             <td class="ps-4 text-muted">#<?= $t['id'] ?></td>
                             <td><?= $t['no_invoice'] ?></td>
-                            <td><?= date('d M Y H:i', strtotime($t['tanggal'])) ?></td>
+                            <td><?= date('d M Y H:i', strtotime($t['tgl_masuk'])) ?></td>
                             <td>
-                                <!-- Fetching customer name could be done via join in Model, keeping simple for now -->
-                                <span class="badge border border-secondary text-secondary rounded-0">ID: <?= $t['customer_id'] ?></span>
+                                <?= htmlspecialchars($t['customer_name'] ?? 'Guest') ?>
+                                <br>
+                                <small class="text-muted"><?= htmlspecialchars($t['customer_phone'] ?? '-') ?></small>
                             </td>
-                            <td class="text-warning fw-bold">Rp <?= number_format($t['total_bayar'], 0, ',', '.') ?></td>
+                            <td class="text-warning fw-bold">Rp <?= number_format($t['grand_total'], 0, ',', '.') ?></td>
                             <td class="text-end pe-4">
                                 <a href="/pos/printInvoice/<?= $t['id'] ?>" target="_blank" class="btn btn-sm btn-outline-light">Print</a>
                             </td>
