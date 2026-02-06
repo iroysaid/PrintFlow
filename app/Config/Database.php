@@ -29,7 +29,7 @@ class Database extends Config
         'hostname'     => 'localhost',
         'username'     => '',
         'password'     => '',
-        'database'     => '/Users/said/.gemini/antigravity/scratch/pos-app/writable/database.sqlite',
+        'database'     => __DIR__ . '/../../writable/database.sqlite',
         'DBDriver'     => 'SQLite3',
         'DBPrefix'     => '',
         'pConnect'     => false,
