@@ -1,0 +1,41 @@
+<?php
+
+use CodeIgniter\Router\RouteCollection;
+
+/**
+ * @var RouteCollection $routes
+ */
+$routes->get('/', 'Home::index');
+$routes->get('/login', 'Auth::login');
+$routes->post('/auth/process', 'Auth::process');
+$routes->get('/logout', 'Auth::logout');
+
+// Protected Routes
+$routes->group('', ['filter' => 'auth'], function($routes) {
+    
+    // Cashier Routes
+    $routes->get('pos', 'Pos::index');
+    $routes->get('pos/history', 'Pos::history');
+    $routes->get('pos/searchProduct', 'Pos::searchProduct');
+    $routes->get('pos/checkCustomer', 'Pos::checkCustomer');
+    $routes->post('pos/saveTransaction', 'Pos::saveTransaction');
+    $routes->get('pos/printInvoice/(:num)', 'Pos::printInvoice/$1');
+    $routes->get('report/weekend', 'Report::weekend');
+
+    // Admin Routes
+    $routes->group('admin', function($routes) {
+        $routes->get('dashboard', 'Admin\Dashboard::index');
+        $routes->post('dashboard/updateStatus/(:num)', 'Admin\Dashboard::updateStatus/$1');
+
+        $routes->get('products', 'Admin\Product::index');
+        $routes->post('products/create', 'Admin\Product::create');
+        $routes->post('products/update/(:num)', 'Admin\Product::update/$1');
+        $routes->get('products/delete/(:num)', 'Admin\Product::delete/$1');
+        
+        $routes->get('transactions', 'Admin\Transaction::index');
+        
+        $routes->get('users', 'Admin\User::index');
+        $routes->post('users/create', 'Admin\User::create');
+    });
+
+});

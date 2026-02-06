@@ -1,0 +1,77 @@
+:root {
+    --bs-primary: #0d6efd;
+    /* Deep Blue */
+    --bs-secondary: #6c757d;
+    --bs-success: #198754;
+    --bs-warning: #ffc107;
+    /* Bright Yellow */
+    --bs-danger: #dc3545;
+    --bs-light: #f8f9fa;
+    --bs-dark: #212529;
+
+    --theme-bg: #ffffff;
+    --theme-text: #212529;
+    --theme-card-bg: #f8f9fa;
+    --theme-border: #dee2e6;
+}
+
+body {
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+    font-family: 'Inter', sans-serif;
+}
+
+/* Navbar Customization */
+.navbar-corporate {
+    background-color: var(--bs-primary);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-corporate .navbar-brand,
+.navbar-corporate .nav-link {
+    color: #fff !important;
+}
+
+.navbar-corporate .nav-link.active {
+    font-weight: bold;
+    border-bottom: 2px solid var(--bs-warning);
+}
+
+/* Cards */
+.card {
+    border: 1px solid var(--theme-border);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid var(--theme-border);
+    font-weight: 600;
+}
+
+/* Utilities */
+.bg-primary-subtle {
+    background-color: #cfe2ff !important;
+}
+
+.text-primary-emphasis {
+    color: #052c65 !important;
+}
+
+/* POS Specific */
+.product-card {
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-color: var(--bs-primary);
+}
+
+.bg-yellow-accent {
+    background-color: var(--bs-warning);
+    color: #000;
+    font-weight: bold;
+}

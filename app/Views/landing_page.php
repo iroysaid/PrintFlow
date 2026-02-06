@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrintFlow - Percetakan Digital Terbaik</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-white">
+
+    <!-- Transparent Navbar for Landing -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="fas fa-print me-2"></i>PrintFlow
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLanding">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navLanding">
+                <ul class="navbar-nav ms-auto gap-3">
+                    <li class="nav-item"><a class="nav-link text-white" href="#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#news">News & Promo</a></li>
+                    <li class="nav-item">
+                        <a class="btn btn-warning fw-bold text-dark px-4" href="/login">Login / Order</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="d-flex align-items-center justify-content-center text-center text-white bg-primary bg-gradient" style="min-height: 80vh; padding-top: 60px;">
+        <div class="container">
+            <h1 class="display-3 fw-bold mb-3">Percetakan Digital Tercepat & Terbaik</h1>
+            <p class="lead mb-4 opacity-75">Solusi cetak spanduk, sticker, dan kartu nama dengan kualitas premium.</p>
+            <a href="/login" class="btn btn-warning btn-lg fw-bold text-dark px-5 py-3 shadow">PESAN SEKARANG</a>
+        </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section id="services" class="py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-primary">Layanan Kami</h2>
+                <p class="text-muted">Kualitas terbaik untuk segala kebutuhan cetak Anda</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="mb-3 text-primary"><i class="fas fa-scroll fa-3x"></i></div>
+                        <h4 class="fw-bold">MMT / Spanduk</h4>
+                        <p class="text-muted">Cetak spanduk outdoor tahan cuaca dengan resolusi tinggi.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="mb-3 text-warning"><i class="fas fa-sticky-note fa-3x"></i></div>
+                        <h4 class="fw-bold">Stiker Label</h4>
+                        <p class="text-muted">Stiker Chromo, Vinyl, dan Transparan untuk kemasan produk.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="mb-3 text-success"><i class="fas fa-id-card fa-3x"></i></div>
+                        <h4 class="fw-bold">Kartu Nama</h4>
+                        <p class="text-muted">Cetak kartu nama premium dengan finishing laminasi.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News & Promos -->
+    <section id="news" class="py-5 bg-light">
+        <div class="container py-5">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+                <div>
+                    <h2 class="fw-bold text-primary">Berita & Promo</h2>
+                    <p class="text-muted mb-0">Update terbaru dari workshop kami</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <?php foreach($posts as $post): ?>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                        <?php if($post['image']): ?>
+                            <img src="/uploads/<?= $post['image'] ?>" class="card-img-top" alt="Promo" style="height: 200px; object-fit: cover;">
+                        <?php else: ?>
+                            <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="fas fa-image fa-2x"></i>
+                            </div>
+                        <?php endif; ?>
+                        
+                        <div class="card-body">
+                            <span class="badge bg-primary mb-2 text-uppercase"><?= $post['category'] ?></span>
+                            <h5 class="fw-bold"><?= $post['title'] ?></h5>
+                            <p class="card-text text-muted small"><?= substr($post['content'], 0, 100) ?>...</p>
+                        </div>
+                        <div class="card-footer bg-white border-0 pb-3">
+                            <small class="text-muted"><?= date('d M Y', strtotime($post['created_at'])) ?></small>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+
+                <?php if(empty($posts)): ?>
+                    <div class="col-12 text-center py-5">
+                        <p class="text-muted">Belum ada promo aktif saat ini.</p>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-auto">
+        <div class="container text-center">
+            <h4 class="fw-bold mb-3">PrintFlow Digital Printing</h4>
+            <p class="opacity-75 mb-4">Solusi cetak cepat, murah, dan berkualitas.</p>
+            <div class="d-flex justify-content-center gap-3 mb-4">
+                <a href="#" class="text-white"><i class="fab fa-facebook fa-lg"></i></a>
+                <a href="#" class="text-white"><i class="fab fa-instagram fa-lg"></i></a>
+                <a href="#" class="text-white"><i class="fab fa-whatsapp fa-lg"></i></a>
+            </div>
+            <small class="opacity-50">&copy; <?= date('Y') ?> PrintFlow. All rights reserved.</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+# CodeIgniter 4
+/vendor
+/writable/*
+!/writable/.gitignore
+/tests/_support/_generated/
+/.env
+/local
+/build
+
+# User Specific
+.DS_Store
+.idea/
+.vscode/
+
+# Temporary
+*.log
+*.tmp
+
+# Uploads
+/public/uploads/*
+!/public/uploads/.gitignore
+
+# Spark
+spark.log
