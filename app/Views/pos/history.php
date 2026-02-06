@@ -14,12 +14,12 @@
                     <input type="text" name="search" class="form-control bg-light border-0" placeholder="Invoice, Name, or Phone..." value="<?= esc($search) ?>">
                 </div>
                 <div class="col-md-3">
-                    <label class="text-white small mb-1">Start Date</label>
-                    <input type="date" name="start_date" class="form-control bg-light border-0" value="<?= esc($startDate) ?>">
+                    <label class="text-white small mb-1">Dari Tanggal</label>
+                    <input type="date" name="tgl_awal" class="form-control bg-light border-0" value="<?= esc($tglAwal) ?>">
                 </div>
                 <div class="col-md-3">
-                    <label class="text-white small mb-1">End Date</label>
-                    <input type="date" name="end_date" class="form-control bg-light border-0" value="<?= esc($endDate) ?>">
+                    <label class="text-white small mb-1">Sampai Tanggal</label>
+                    <input type="date" name="tgl_akhir" class="form-control bg-light border-0" value="<?= esc($tglAkhir) ?>">
                 </div>
                 <div class="col-md-2 d-flex align-items-end">
                     <button type="submit" class="btn btn-primary w-100 fw-bold"><i class="fas fa-filter me-1"></i> Filter</button>

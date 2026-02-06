@@ -31,8 +31,8 @@ class Pos extends BaseController
     public function history()
     {
         $search = $this->request->getGet('search');
-        $startDate = $this->request->getGet('start_date');
-        $endDate = $this->request->getGet('end_date');
+        $tglAwal = $this->request->getGet('tgl_awal');
+        $tglAkhir = $this->request->getGet('tgl_akhir');
 
         $query = $this->transactionModel->orderBy('created_at', 'DESC');
 
@@ -44,9 +44,12 @@ class Pos extends BaseController
                 ->groupEnd();
         }
 
-        if (!empty($startDate) && !empty($endDate)) {
-            $query->where("DATE(tgl_masuk) >=", $startDate)
-                  ->where("DATE(tgl_masuk) <=", $endDate);
+        if (!empty($tglAwal)) {
+            $query->where("DATE(tgl_masuk) >=", $tglAwal);
+        }
+        
+        if (!empty($tglAkhir)) {
+            $query->where("DATE(tgl_masuk) <=", $tglAkhir);
         }
 
         $transactions = $query->findAll(50);
@@ -54,8 +57,8 @@ class Pos extends BaseController
         return view('pos/history', [
             'transactions' => $transactions,
             'search' => $search,
-            'startDate' => $startDate,
-            'endDate' => $endDate
+            'tglAwal' => $tglAwal,
+            'tglAkhir' => $tglAkhir
         ]);
     }
 
