@@ -15,12 +15,12 @@ class Home extends BaseController
         // Fetch Data
         $posts = $webPostModel->getActivePosts();
         
-        // Maybe fetch featured products or services logic? 
-        // For now hardcode or use products table but products table is for POS items.
-        // Let's just pass posts and simple view data.
+        // Fetch Pricelist (Limit 12 for showcase)
+        $products = $productModel->orderBy('nama_barang', 'ASC')->findAll(12);
 
         return view('landing_page', [
-            'posts' => $posts
+            'posts'    => $posts,
+            'products' => $products
         ]);
     }
 }

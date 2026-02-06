@@ -25,6 +25,7 @@
             <div class="collapse navbar-collapse" id="navLanding">
                 <ul class="navbar-nav ms-auto gap-3">
                     <li class="nav-item"><a class="nav-link text-white" href="#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#pricelist">Pricelist</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="#news">News & Promo</a></li>
                     <li class="nav-item">
                         <a class="btn btn-warning fw-bold text-dark px-4" href="/login">Login / Order</a>
@@ -77,8 +78,60 @@
         </div>
     </section>
 
+    </section>
+
+    <!-- Pricelist Section -->
+    <section id="pricelist" class="py-5 bg-light">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-primary">Daftar Harga</h2>
+                <p class="text-muted">Harga transparan & terbaik untuk kebutuhan cetak Anda</p>
+            </div>
+            
+            <div class="row g-4">
+                <?php if(!empty($products)): ?>
+                    <?php foreach($products as $product): ?>
+                    <div class="col-6 col-md-3">
+                        <div class="card h-100 border-0 shadow-sm hover-up transition-all">
+                            <div class="card-body text-center p-4 d-flex flex-column">
+                                <div class="mb-3 text-primary">
+                                    <div class="bg-primary-subtle rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                        <i class="fas fa-tag fa-lg"></i>
+                                    </div>
+                                </div>
+                                
+                                <h5 class="fw-bold mb-auto"><?= esc($product['nama_barang']) ?></h5>
+                                
+                                <div class="mt-3 pt-3 border-top">
+                                    <span class="d-block text-muted small text-uppercase fw-bold mb-1">Mulai Dari</span>
+                                    <span class="fs-4 fw-bold text-dark">
+                                        Rp <?= number_format($product['harga_dasar'], 0, ',', '.') ?>
+                                    </span>
+                                    <span class="text-muted small">
+                                        / <?= $product['jenis_harga'] == 'meter' ? 'm' : 'pcs' ?>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="col-12 text-center py-5">
+                        <p class="text-muted">Sedang memperbarui harga...</p>
+                    </div>
+                <?php endif; ?>
+            </div>
+            
+            <div class="text-center mt-5">
+                <a href="https://wa.me/6281234567890" target="_blank" class="btn btn-outline-primary rounded-pill px-4">
+                    <i class="fab fa-whatsapp me-2"></i>Tanya Harga Spesifik
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- News & Promos -->
-    <section id="news" class="py-5 bg-light">
+    <section id="news" class="py-5 bg-white">
         <div class="container py-5">
             <div class="d-flex justify-content-between align-items-end mb-4">
                 <div>
