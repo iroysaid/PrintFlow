@@ -62,10 +62,9 @@
                                     <a href="/pos/printInvoice/<?= $t['id'] ?>?from=history" target="_blank" class="btn btn-sm btn-outline-primary" title="Lihat Nota">
                                         <i class="fas fa-file-invoice"></i>
                                     </a>
-                                    <!-- Edit Button (For future implementation or simple status update) -->
-                                    <!-- <a href="/pos/editTransaction/<?= $t['id'] ?>" class="btn btn-sm btn-outline-warning" title="Edit">
+                                    <a href="/pos/editTransaction/<?= $t['id'] ?>" class="btn btn-sm btn-outline-warning" title="Edit">
                                         <i class="fas fa-edit"></i>
-                                    </a> -->
+                                    </a>
                                     <button onclick="confirmDelete(<?= $t['id'] ?>)" class="btn btn-sm btn-outline-danger" title="Hapus">
                                         <i class="fas fa-trash"></i>
                                     </button>

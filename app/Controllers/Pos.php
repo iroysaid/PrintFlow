@@ -295,7 +295,69 @@ class Pos extends BaseController
 
         } catch (\Exception $e) {
             $db->transRollback();
-            return redirect()->to('/pos/history')->with('error', 'Error: ' . $e->getMessage());
+    public function editTransaction($id)
+    {
+        $transaction = $this->transactionModel->find($id);
+        if (!$transaction) {
+            return redirect()->to('/pos/history')->with('error', 'Transaksi tidak ditemukan.');
         }
+
+        $items = $this->transactionDetailModel
+            ->select('transaction_details.*, products.nama_barang, products.jenis_harga')
+            ->join('products', 'products.id = transaction_details.product_id')
+            ->where('transaction_id', $id)
+            ->findAll();
+
+        return view('pos/edit_transaction', [
+            'transaction' => $transaction,
+            'items'       => $items,
+        ]);
     }
-}
+
+    public function updateTransaction($id)
+    {
+        $transaction = $this->transactionModel->find($id);
+        if (!$transaction) {
+            return redirect()->to('/pos/history')->with('error', 'Transaksi tidak ditemukan.');
+        }
+
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'nama_customer' => 'required',
+            'no_hp'         => 'required|numeric|min_length(10)',
+            'status_bayar'  => 'required|in_list[lunas,belum_lunas]',
+            'status_produksi' => 'required|in_list[queue,process,done,taken]',
+        ]);
+
+        if (!$this->validate($validation->getRules())) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $namaCustomer  = $this->request->getPost('nama_customer');
+        $noHp          = $this->request->getPost('no_hp');
+        $statusBayar   = $this->request->getPost('status_bayar');
+        $statusProduksi = $this->request->getPost('status_produksi');
+        $nominalBayar  = str_replace('.', '', $this->request->getPost('nominal_bayar')); // Remove formatting if any
+        
+        // Recalculate Logic
+        $grandTotal = $transaction['grand_total'];
+        $sisaBayar  = ($grandTotal - $nominalBayar > 0) ? ($grandTotal - $nominalBayar) : 0;
+        
+        // Override status bayar if manually set, but logic check is good too.
+        // If user sets 'lunas' but Sisa > 0, should we force logic?
+        // Let's trust the Manual Selection for Status Bayar but update numbers.
+        
+        $this->transactionModel->update($id, [
+            'customer_name'   => $namaCustomer,
+            'customer_phone'  => $noHp,
+            'status_bayar'    => $statusBayar,
+            'status_produksi' => $statusProduksi,
+            'nominal_bayar'   => $nominalBayar,
+            'sisa_bayar'      => $sisaBayar,
+        ]);
+
+        // Update Customer Record too if name changed? Optional.
+        // $this->customerModel->update($transaction['customer_id'], ['nama_customer' => $namaCustomer, 'no_hp' => $noHp]);
+
+        return redirect()->to('/pos/history')->with('success', 'Transaksi berhasil diperbarui.');
+    }
