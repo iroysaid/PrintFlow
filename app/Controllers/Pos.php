@@ -222,6 +222,7 @@ class Pos extends BaseController
                 $this->transactionDetailModel->insert([
                     'transaction_id'    => $transactionId,
                     'product_id'        => $item->id,
+                    'nama_project'      => $item->nama_project ?? null,
                     'panjang'           => $panjang,
                     'lebar'             => $lebar,
                     'qty'               => $qty,
