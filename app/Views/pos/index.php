@@ -132,20 +132,30 @@
     <div class="modal fade" id="paymentModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title fw-bold">Payment Details</h5>
+                <div class="modal-header bg-gradient-primary text-white border-0 shadow-sm" style="background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-receipt me-2"></i>Payment Details</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body p-4">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Subtotal</label>
-                        <div class="fs-4 fw-bold text-secondary mb-2" x-text="formatRupiah(subTotal)"></div>
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">Subtotal</span>
+                            <span class="fw-bold" x-text="formatRupiah(subTotal)"></span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-muted">Discount</span>
+                            <div class="input-group input-group-sm w-50">
+                                <span class="input-group-text border-0 bg-light">Rp</span>
+                                <input type="number" x-model="payment.discount" class="form-control border-0 bg-light text-end" placeholder="0" @input="calculateGrandTotal()">
+                            </div>
+                        </div>
 
-                        <label class="form-label">Discount</label>
-                        <input type="number" x-model="payment.discount" class="form-control mb-3" placeholder="0" @input="calculateGrandTotal()">
-
-                        <label class="form-label fw-bold border-top pt-2">Grand Total</label>
-                        <div class="fs-2 fw-bold text-primary mb-3" x-text="formatRupiah(grandTotal)"></div>
+                        <!-- Ribbon Style Total -->
+                        <div class="position-relative bg-primary text-white p-3 rounded-3 shadow-sm text-center overflow-hidden">
+                            <div class="position-absolute top-0 start-0 w-100 h-100 opacity-10" style="background: repeating-linear-gradient(45deg, transparent, transparent 10px, #fff 10px, #fff 20px);"></div>
+                            <span class="d-block text-white-50 text-uppercase small fw-bold mb-1" style="letter-spacing: 1px;">Grand Total</span>
+                            <span class="fs-1 fw-bold position-relative z-1" x-text="formatRupiah(grandTotal)"></span>
+                        </div>
                     </div>
                     
                     <div class="row g-3 mb-3">
