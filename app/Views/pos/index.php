@@ -42,26 +42,41 @@
         <!-- Customer Info -->
         <div class="p-3 bg-white border-bottom position-relative">
             <h5 class="fw-bold mb-3"><i class="fas fa-user-edit me-2 text-primary"></i>Customer Info</h5>
-            <div class="input-group mb-2">
+            <div class="input-group mb-2 position-relative">
                 <span class="input-group-text bg-light border-0"><i class="fas fa-phone"></i></span>
-                <input type="text" x-model="customer.no_hp" @input="customer.no_hp = customer.no_hp.replace(/[^0-9]/g, ''); searchCustomer(customer.no_hp)" @click.away="showCustomerDropdown = false" class="form-control bg-light border-0" placeholder="Phone (10-14 digit)" maxlength="14">
-            </div>
-            
-            <!-- Autocomplete Dropdown -->
-            <div x-show="showCustomerDropdown && customerList.length > 0" class="position-absolute bg-white shadow rounded w-100 z-3" style="margin-top: -10px; max-height: 200px; overflow-y: auto;">
-                <ul class="list-group list-group-flush">
-                    <template x-for="c in customerList" :key="c.id">
-                        <li class="list-group-item list-group-item-action cursor-pointer" @click="selectCustomer(c)">
-                            <div class="d-flex justify-content-between">
-                                <span class="fw-bold" x-text="c.nama_customer"></span>
-                                <span class="text-muted small" x-text="c.no_hp"></span>
-                            </div>
-                        </li>
-                    </template>
-                </ul>
+                <input type="text" x-model="customer.no_hp" @input.debounce.300ms="searchCustomer($event.target.value, 'phone')" @click.away="showCustomerDropdown = false" class="form-control bg-light border-0" placeholder="Phone (10-14 digit)" maxlength="14">
+                
+                <!-- Autocomplete Dropdown (Phone) -->
+                <div x-show="showCustomerDropdown && customerList.length > 0 && activeSearchField === 'phone'" class="position-absolute start-0 top-100 w-100 bg-white shadow rounded z-3 mt-1" style="max-height: 200px; overflow-y: auto; display: none;">
+                    <ul class="list-group list-group-flush border">
+                        <template x-for="c in customerList" :key="c.id">
+                            <li class="list-group-item list-group-item-action cursor-pointer" @click="selectCustomer(c)">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold" x-text="c.nama_customer"></span>
+                                    <span class="text-muted small" x-text="c.no_hp"></span>
+                                </div>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
             </div>
 
-            <input type="text" x-model="customer.nama_customer" @input="searchCustomer(customer.nama_customer)" class="form-control bg-light border-0" placeholder="Customer Name">
+            <div class="position-relative">
+                <input type="text" x-model="customer.nama_customer" @input.debounce.300ms="searchCustomer($event.target.value, 'name')" class="form-control bg-light border-0" placeholder="Customer Name">
+                 <!-- Dropdown for Name -->
+                 <div x-show="showCustomerDropdown && customerList.length > 0 && activeSearchField === 'name'" class="position-absolute start-0 top-100 w-100 bg-white shadow rounded z-3 mt-1" style="max-height: 200px; overflow-y: auto; display: none;">
+                    <ul class="list-group list-group-flush border">
+                        <template x-for="c in customerList" :key="c.id">
+                            <li class="list-group-item list-group-item-action cursor-pointer" @click="selectCustomer(c)">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold" x-text="c.nama_customer"></span>
+                                    <span class="text-muted small" x-text="c.no_hp"></span>
+                                </div>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <!-- Cart Items -->
@@ -256,8 +271,14 @@ function posApp() {
             discount: 0,
             method: 'cash',
             estimasi: 1
+        payment: {
+            amount_paid: 0,
+            discount: 0,
+            method: 'cash',
+            estimasi: 1
         },
         processing: false,
+        activeSearchField: null,
 
         init() {
             this.searchProduct();
@@ -272,7 +293,9 @@ function posApp() {
         },
 
         // Autocomplete Search
-        searchCustomer(term) {
+        searchCustomer(term, field) {
+            this.activeSearchField = field;
+            
             if(!term || term.length < 3) {
                 this.customerList = [];
                 this.showCustomerDropdown = false;
