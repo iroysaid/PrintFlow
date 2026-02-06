@@ -25,7 +25,7 @@
                             <td class="text-muted"><?= date('d M Y H:i', strtotime($t['tgl_masuk'])) ?></td>
                             <td>
                                 <!-- Fetching customer name could be done via join in Model, keeping simple for now -->
-                                <span class="badge border border-secondary text-secondary rounded-0">ID: <?= $t['customer_id'] ?></span>
+                                <span class="badge border border-secondary text-secondary rounded-0">ID: <?= $t['customer_id'] ?? '-' ?></span>
                             </td>
                             <td class="text-warning fw-bold">Rp <?= number_format($t['total_bayar'], 0, ',', '.') ?></td>
                             <td class="text-end pe-4">

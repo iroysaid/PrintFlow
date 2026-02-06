@@ -11,7 +11,7 @@ class TransactionModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $allowedFields    = [
-        'no_invoice', 'customer_name', 'customer_phone', 'tgl_masuk', 'estimasi_hari', 
+        'no_invoice', 'customer_id', 'customer_name', 'customer_phone', 'tgl_masuk', 'estimasi_hari', 
         'tgl_selesai', 'total_asli', 'diskon', 'grand_total', 'nominal_bayar', 
         'sisa_bayar', 'metode_bayar', 'status_bayar', 'status_produksi', 'user_id'
     ];
