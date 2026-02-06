@@ -5,6 +5,27 @@
 <div class="row">
     <div class="col-12">
         <h2 class="text-white mb-4">Transaction History</h2>
+
+        <!-- Search & Filter -->
+        <div class="glass-panel mb-4 p-4">
+            <form action="" method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label class="text-white small mb-1">Search</label>
+                    <input type="text" name="search" class="form-control bg-light border-0" placeholder="Invoice, Name, or Phone..." value="<?= esc($search) ?>">
+                </div>
+                <div class="col-md-3">
+                    <label class="text-white small mb-1">Start Date</label>
+                    <input type="date" name="start_date" class="form-control bg-light border-0" value="<?= esc($startDate) ?>">
+                </div>
+                <div class="col-md-3">
+                    <label class="text-white small mb-1">End Date</label>
+                    <input type="date" name="end_date" class="form-control bg-light border-0" value="<?= esc($endDate) ?>">
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100 fw-bold"><i class="fas fa-filter me-1"></i> Filter</button>
+                </div>
+            </form>
+        </div>
         
         <div class="glass-panel p-0">
             <div class="table-responsive">
@@ -25,8 +46,8 @@
                             <td class="ps-4 fw-bold"><?= $t['no_invoice'] ?></td>
                             <td class="text-muted"><?= date('d M Y H:i', strtotime($t['tgl_masuk'])) ?></td>
                             <td>
-                                <!-- Fetching customer name could be done via join in Model, keeping simple for now -->
-                                <span class="badge border border-secondary text-secondary rounded-0">ID: <?= $t['customer_id'] ?? '-' ?></span>
+                                <div class="fw-bold"><?= esc($t['customer_name']) ?></div>
+                                <div class="small text-muted"><?= esc($t['customer_phone']) ?></div>
                             </td>
                             <td>
                                 <?php if($t['status_bayar'] == 'lunas'): ?>

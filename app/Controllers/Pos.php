@@ -30,8 +30,33 @@ class Pos extends BaseController
 
     public function history()
     {
-        $transactions = $this->transactionModel->getRecent(20);
-        return view('pos/history', ['transactions' => $transactions]);
+        $search = $this->request->getGet('search');
+        $startDate = $this->request->getGet('start_date');
+        $endDate = $this->request->getGet('end_date');
+
+        $query = $this->transactionModel->orderBy('created_at', 'DESC');
+
+        if (!empty($search)) {
+            $query->groupStart()
+                ->like('no_invoice', $search)
+                ->orLike('customer_name', $search)
+                ->orLike('customer_phone', $search)
+                ->groupEnd();
+        }
+
+        if (!empty($startDate) && !empty($endDate)) {
+            $query->where("DATE(tgl_masuk) >=", $startDate)
+                  ->where("DATE(tgl_masuk) <=", $endDate);
+        }
+
+        $transactions = $query->findAll(50);
+
+        return view('pos/history', [
+            'transactions' => $transactions,
+            'search' => $search,
+            'startDate' => $startDate,
+            'endDate' => $endDate
+        ]);
     }
 
     public function searchProduct()
