@@ -126,7 +126,7 @@
                             <!-- Subtotal -->
                             <div class="col-4 text-end">
                                 <span class="fw-bold fs-6" x-text="formatRupiah(item.subtotal)"></span>
-                                <div x-show="item.diskon_persen > 0" class="text-success small" style="font-size: 0.75rem;" x-text="`Desc ${item.diskon_persen}%`"></div>
+                                <div x-show="item.diskon_persen > 0" class="text-success small" style="font-size: 0.75rem;" x-text="`Disc ${item.diskon_persen}%`"></div>
                             </div>
                         </div>
 
