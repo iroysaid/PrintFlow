@@ -64,6 +64,7 @@
                             <?php endif; ?>
 
                             <form action="/auth/process" method="post">
+                                <?= csrf_field() ?>
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
                                     <label for="username">Username</label>

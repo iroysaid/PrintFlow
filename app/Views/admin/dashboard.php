@@ -52,10 +52,10 @@
                     <tbody>
                         <?php foreach($queue as $q): ?>
                         <tr>
-                            <td class="ps-3 fw-bold"><?= $q['no_invoice'] ?></td>
+                            <td class="ps-3 fw-bold"><?= esc($q['no_invoice']) ?></td>
                             <td>
-                                <div><?= $q['customer_name'] ?></div>
-                                <small class="text-muted"><?= $q['customer_phone'] ?></small>
+                                <div><?= esc($q['customer_name']) ?></div>
+                                <small class="text-muted"><?= esc($q['customer_phone']) ?></small>
                             </td>
                             <td>
                                 <!-- Highlight if deadline is close/passed -->

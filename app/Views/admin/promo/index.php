@@ -20,6 +20,7 @@
                             </div>
                             <div class="card-body">
                                 <form action="/admin/promo/update/<?= $promo['id'] ?>" method="post" enctype="multipart/form-data">
+                                    <?= csrf_field() ?>
                                     <!-- Image Preview (3:4 Portrait) -->
                                     <div class="ratio mb-3 rounded overflow-hidden position-relative group-hover bg-secondary" style="--bs-aspect-ratio: 133.33%;">
                                         <?php if($promo['image']): ?>

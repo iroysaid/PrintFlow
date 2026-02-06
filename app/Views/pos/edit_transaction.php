@@ -21,6 +21,7 @@
                     <?php endif; ?>
 
                     <form action="/pos/updateTransaction/<?= $transaction['id'] ?>" method="post">
+                        <?= csrf_field() ?>
                         
                         <div class="mb-3">
                             <label class="form-label fw-bold">Customer Info</label>
