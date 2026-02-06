@@ -271,11 +271,6 @@ function posApp() {
             discount: 0,
             method: 'cash',
             estimasi: 1
-        payment: {
-            amount_paid: 0,
-            discount: 0,
-            method: 'cash',
-            estimasi: 1
         },
         processing: false,
         activeSearchField: null,
