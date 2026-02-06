@@ -108,15 +108,19 @@
                                 </div>
                             </template>
 
+                                    <button class="btn btn-outline-secondary" @click="item.qty++; updateSubtotal(item)">+</button>
+                                </div>
+                            </div>
+                            <!-- Discount Input -->
                             <div class="col-6">
                                 <div class="input-group input-group-sm">
-                                    <button class="btn btn-outline-secondary" @click="item.qty > 1 ? item.qty-- : null; updateSubtotal(item)">-</button>
-                                    <input type="number" x-model.number="item.qty" class="form-control text-center" @input="updateSubtotal(item)">
-                                    <button class="btn btn-outline-secondary" @click="item.qty++; updateSubtotal(item)">+</button>
+                                    <span class="input-group-text">Disc%</span>
+                                    <input type="number" x-model.number="item.diskon_persen" class="form-control text-center" min="0" max="100" @input="updateSubtotal(item)">
                                 </div>
                             </div>
                             <div class="col-6 text-end">
                                 <span class="fw-bold fs-6" x-text="formatRupiah(item.subtotal)"></span>
+                                <div x-show="item.diskon_persen > 0" class="text-success small" x-text="`Desc ${item.diskon_persen}%`"></div>
                             </div>
                         </div>
 
@@ -161,11 +165,14 @@
                             <span class="fw-bold" x-text="formatRupiah(subTotal)"></span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="text-muted">Discount</span>
+                            <span class="text-muted">Discount (%)</span>
                             <div class="input-group input-group-sm w-50">
-                                <span class="input-group-text border-0 bg-light">Rp</span>
-                                <input type="number" x-model="payment.discount" class="form-control border-0 bg-light text-end" placeholder="0" @input="calculateGrandTotal()">
+                                <input type="number" x-model="payment.diskon_persen" class="form-control border-0 bg-light text-end" placeholder="0" min="0" max="100" @input="calculateGrandTotal()">
+                                <span class="input-group-text border-0 bg-light">%</span>
                             </div>
+                        </div>
+                        <div class="d-flex justify-content-end mb-3" x-show="payment.diskon_persen > 0">
+                             <span class="text-success small" x-text="`Potongan: -${formatRupiah(calculateDiscountAmount())}`"></span>
                         </div>
 
                         <!-- Ribbon Style Total -->
@@ -271,7 +278,8 @@ function posApp() {
         showCustomerDropdown: false,
         payment: {
             amount_paid: 0,
-            discount: 0,
+            diskon_persen: 0,
+            discount: 0, // Nominal calculated from percent
             method: 'cash',
             estimasi: 1
         },
@@ -340,6 +348,7 @@ function posApp() {
                 panjang: 1,
                 lebar: 1,
                 catatan_finishing: '',
+                diskon_persen: 0,
                 subtotal: 0
             };
             
@@ -356,14 +365,17 @@ function posApp() {
         },
 
         calculateItemSubtotal(item) {
+            let gross = 0;
             if (item.jenis_harga === 'meter') {
-                // Formula: (P * L * Price) * Qty
                 let area = item.panjang * item.lebar;
-                // Optional: Min area rule? area = Math.max(1, area);
-                item.subtotal = (area * item.harga_dasar) * item.qty;
+                gross = (area * item.harga_dasar) * item.qty;
             } else {
-                item.subtotal = item.harga_dasar * item.qty;
+                gross = item.harga_dasar * item.qty;
             }
+            
+            // Apply Discount Percent
+            let discountAmount = gross * (item.diskon_persen / 100);
+            item.subtotal = gross - discountAmount;
         },
 
         get subTotal() {
@@ -371,7 +383,12 @@ function posApp() {
         },
 
         get grandTotal() {
-            return this.subTotal - (parseInt(this.payment.discount) || 0);
+            let discAmount = this.subTotal * (this.payment.diskon_persen / 100);
+            return this.subTotal - discAmount;
+        },
+        
+        calculateDiscountAmount() {
+            return this.subTotal * (this.payment.diskon_persen / 100);
         },
 
         formatRupiah(number) {
