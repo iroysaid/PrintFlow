@@ -40,7 +40,7 @@
                         <?php foreach($transactions as $t): ?>
                         <tr>
                             <td class="ps-4 fw-bold">
-                                <a href="/pos/printInvoice/<?= $t['id'] ?>?from=history" target="_blank" class="text-decoration-none" title="Lihat Nota">
+                                <a href="/pos/printInvoice/<?= $t['id'] ?>?from=history" target="_blank" class="text-dark text-decoration-underline" title="Lihat Nota">
                                     <?= $t['no_invoice'] ?>
                                 </a>
                             </td>
