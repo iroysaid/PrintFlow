@@ -284,7 +284,7 @@
                         <td><?= date('d M Y, H:i', strtotime($transaction['tgl_masuk'])) ?></td>
                     </tr>
                     <tr>
-                        <td>Deadline:</td>
+                        <td>Estimate:</td>
                         <td><?= date('d M Y', strtotime($transaction['tgl_selesai'])) ?></td>
                     </tr>
                     <tr>

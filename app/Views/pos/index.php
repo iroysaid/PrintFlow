@@ -61,7 +61,8 @@
                 </div>
             </div>
 
-            <div class="position-relative">
+            <div class="input-group position-relative">
+                <span class="input-group-text bg-light border-0"><i class="fas fa-user"></i></span>
                 <input type="text" x-model="customer.nama_customer" @input.debounce.300ms="searchCustomer($event.target.value, 'name')" class="form-control bg-light border-0" placeholder="Customer Name">
                  <!-- Dropdown for Name -->
                  <div x-show="showCustomerDropdown && customerList.length > 0 && activeSearchField === 'name'" class="position-absolute start-0 top-100 w-100 bg-white shadow rounded z-3 mt-1" style="max-height: 200px; overflow-y: auto; display: none;">
