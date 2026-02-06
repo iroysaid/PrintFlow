@@ -28,7 +28,7 @@
                     <li class="nav-item"><a class="nav-link text-white" href="#pricelist">Pricelist</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="#news">News & Promo</a></li>
                     <li class="nav-item">
-                        <a class="btn btn-warning fw-bold text-dark px-4" href="/login">Login / Order</a>
+                        <a class="btn btn-warning fw-bold text-dark px-4" href="/login">Login</a>
                     </li>
                 </ul>
             </div>
