@@ -1,0 +1,14 @@
+# PANDUAN PENGGUNAAN (MAC OS)
+
+## Cara Mengatasi "App cannot be opened" (Virus Warning)
+Karena script ini dibuat sendiri (bukan dari App Store), Mac mungkin akan memblokirnya pertama kali.
+**Solusi Aman:**
+1.  Klik Kanan pada file `.command`.
+2.  Pilih **Open**.
+3.  Akan muncul dialog konfirmasi, klik **Open** lagi.
+*Ini hanya perlu dilakukan sekali saja untuk memberi izin.*
+
+## Cara Pakai
+1.  **1_SETUP.command**: Jalankan sekali di awal untuk setup database.
+2.  **2_SERVER.command**: Jalankan untuk menyalakan server POS.
+3.  **3_CLIENT.command**: Copy ke Mac lain untuk connect ke server ini.
