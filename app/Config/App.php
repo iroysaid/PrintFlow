@@ -16,7 +16,18 @@ class App extends BaseConfig
      *
      *    http://example.com/
      */
-    public string $baseURL = '';
+    public string $baseURL = 'http://localhost:8080/';
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        // Auto-detect base URL for LAN access
+        if (isset($_SERVER['HTTP_HOST'])) {
+            $this->baseURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') 
+                . '://' . $_SERVER['HTTP_HOST'] . '/';
+        }
+    }
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
