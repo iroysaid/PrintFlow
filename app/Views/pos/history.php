@@ -22,7 +22,7 @@
                         <?php foreach($transactions as $t): ?>
                         <tr>
                             <td class="ps-4 text-white"><?= $t['no_invoice'] ?></td>
-                            <td class="text-muted"><?= date('d M Y H:i', strtotime($t['tanggal'])) ?></td>
+                            <td class="text-muted"><?= date('d M Y H:i', strtotime($t['tgl_masuk'])) ?></td>
                             <td>
                                 <!-- Fetching customer name could be done via join in Model, keeping simple for now -->
                                 <span class="badge border border-secondary text-secondary rounded-0">ID: <?= $t['customer_id'] ?></span>
