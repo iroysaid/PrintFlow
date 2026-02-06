@@ -182,7 +182,7 @@ class Pos extends BaseController
                 'customer_id'     => $customerId, // We have the ID now if we want to use it
                 'customer_name'   => $name,
                 'customer_phone'  => $phone,
-                'tgl_masuk'       => date('Y-m-d H:i:s'),
+                'tgl_masuk'       => $json->created_at ?? date('Y-m-d H:i:s'), // Use Client Time
                 'estimasi_hari'   => $estimasi,
                 'tgl_selesai'     => $tglSelesai,
                 'total_asli'      => $json->total_asli ?? 0,
