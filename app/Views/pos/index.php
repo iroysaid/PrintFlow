@@ -13,7 +13,7 @@
         </div>
 
         <!-- Product Grid -->
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3" id="product-grid">
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3" id="product-grid" style="padding-bottom: 20px;">
             <template x-for="product in products" :key="product.id">
                 <div class="col">
                     <div class="card h-100 product-card border-0 shadow-sm" @click="addToCart(product)">
@@ -151,10 +151,12 @@
                         </div>
 
                         <!-- Ribbon Style Total -->
-                        <div class="position-relative bg-primary text-white p-3 rounded-3 shadow-sm text-center overflow-hidden">
-                            <div class="position-absolute top-0 start-0 w-100 h-100 opacity-10" style="background: repeating-linear-gradient(45deg, transparent, transparent 10px, #fff 10px, #fff 20px);"></div>
-                            <span class="d-block text-white-50 text-uppercase small fw-bold mb-1" style="letter-spacing: 1px;">Grand Total</span>
-                            <span class="fs-1 fw-bold position-relative z-1" x-text="formatRupiah(grandTotal)"></span>
+                        <!-- Ribbon Style Total (Simplified) -->
+                        <div class="bg-primary text-white p-3 rounded-3 shadow-lg text-center mb-3 position-relative overflow-hidden">
+                             <!-- Subtle sheen effect -->
+                            <div class="position-absolute top-0 start-0 w-100 h-100 bg-white opacity-10" style="transform: skewX(-20deg) translateX(-150%); animation: sheen 3s infinite;"></div>
+                            <span class="d-block text-white-50 text-uppercase small fw-bold mb-1">Grand Total</span>
+                            <span class="fs-1 fw-bold" x-text="formatRupiah(grandTotal)"></span>
                         </div>
                     </div>
                     
@@ -180,6 +182,19 @@
                             <span x-text="calculateChange() < 0 ? 'Remaining: ' + formatRupiah(Math.abs(calculateChange())) : 'Change: ' + formatRupiah(calculateChange())"></span>
                         </div>
                     </div>
+
+                    <!-- Actions (Moved inside Body) -->
+                    <div class="d-grid gap-2">
+                         <button @click="submitTransaction()" class="btn btn-primary btn-lg shadow-sm py-3 fw-bold" :disabled="processing">
+                            <span x-show="!processing"><i class="fas fa-print me-2"></i>CONFIRM ORDER & PRINT</span>
+                            <span x-show="processing"><i class="fas fa-spinner fa-spin me-2"></i>Processing...</span>
+                        </button>
+                        <button type="button" class="btn btn-light text-muted" data-bs-dismiss="modal">Cancel Payment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="historyModal" tabindex="-1">
         <div class="modal-dialog modal-lg modal-dialog-centered">
