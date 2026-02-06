@@ -10,29 +10,49 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <?php if($session->get('logged_in')): ?>
+                    
+                    <!-- 1. Dashboard -->
                     <?php if($session->get('role') == 'admin' || $session->get('role') == 'production'): ?>
                         <li class="nav-item">
                             <a class="nav-link <?= uri_string() == 'admin/dashboard' ? 'active' : '' ?>" href="/admin/dashboard">Dashboard</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link <?= uri_string() == 'admin/promos' ? 'active' : '' ?>" href="/admin/promos">Content & Promos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link <?= uri_string() == 'admin/products' ? 'active' : '' ?>" href="/admin/products">Inventory</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link <?= uri_string() == 'admin/transactions' ? 'active' : '' ?>" href="/admin/transactions">Orders</a>
-                        </li>
                     <?php endif; ?>
-                    
+
+                    <!-- 2. POS -->
                     <?php if($session->get('role') == 'cashier' || $session->get('role') == 'admin'): ?>
                         <li class="nav-item">
                             <a class="nav-link <?= uri_string() == 'pos' ? 'active' : '' ?>" href="/pos">POS</a>
                         </li>
+                    <?php endif; ?>
+
+                    <!-- 3. Orders (Transactions) -->
+                    <?php if($session->get('role') == 'admin' || $session->get('role') == 'production'): ?>
+                        <li class="nav-item">
+                            <a class="nav-link <?= uri_string() == 'admin/transactions' ? 'active' : '' ?>" href="/admin/transactions">Orders</a>
+                        </li>
+                    <?php endif; ?>
+
+                    <!-- 4. History -->
+                    <?php if($session->get('role') == 'cashier' || $session->get('role') == 'admin'): ?>
                         <li class="nav-item">
                             <a class="nav-link <?= uri_string() == 'pos/history' ? 'active' : '' ?>" href="/pos/history">History</a>
                         </li>
                     <?php endif; ?>
+
+                    <!-- 5. Inventory (Products) -->
+                    <?php if($session->get('role') == 'admin' || $session->get('role') == 'production'): ?>
+                        <li class="nav-item">
+                            <a class="nav-link <?= uri_string() == 'admin/products' ? 'active' : '' ?>" href="/admin/products">Inventory</a>
+                        </li>
+                    <?php endif; ?>
+
+                    <!-- 6. Content & Promos -->
+                    <?php if($session->get('role') == 'admin' || $session->get('role') == 'production'): ?>
+                        <li class="nav-item">
+                            <a class="nav-link <?= uri_string() == 'admin/promos' ? 'active' : '' ?>" href="/admin/promos">Content & Promos</a>
+                        </li>
+                    <?php endif; ?>
+
                 <?php endif; ?>
             </ul>
             <ul class="navbar-nav">
