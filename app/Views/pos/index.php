@@ -85,7 +85,10 @@
                 <div class="card mb-3 border-0 shadow-sm">
                     <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h6 class="fw-bold mb-0 text-primary" x-text="item.nama_barang"></h6>
+                            <div class="w-100 me-2">
+                                <h6 class="fw-bold mb-1 text-primary" x-text="item.nama_barang"></h6>
+                                <input type="text" x-model="item.nama_project" class="form-control form-control-sm border-0 bg-light py-0 px-2 fst-italic text-muted" placeholder="Project Name (e.g. Backdrop Seminar)" style="font-size: 0.85rem;">
+                            </div>
                             <button @click="removeFromCart(index)" class="btn btn-sm text-danger p-0"><i class="fas fa-times"></i></button>
                         </div>
                         
@@ -330,6 +333,7 @@ function posApp() {
             let item = {
                 id: product.id,
                 nama_barang: product.nama_barang,
+                nama_project: '',
                 harga_dasar: parseFloat(product.harga_dasar),
                 jenis_harga: product.jenis_harga,
                 qty: 1,

@@ -10,8 +10,5 @@ class TransactionDetailModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $allowedFields    = [
-        'transaction_id', 'product_id', 'panjang', 'lebar', 'qty', 
-        'catatan_finishing', 'link_file', 'subtotal'
-    ];
+    protected $allowedFields = ['transaction_id', 'product_id', 'nama_project', 'panjang', 'lebar', 'qty', 'catatan_finishing', 'link_file', 'subtotal'];
 }

@@ -313,6 +313,9 @@
                     <td><?= $i++ ?></td>
                     <td>
                         <span class="item-name"><?= htmlspecialchars($item['nama_barang']) ?></span>
+                        <?php if(!empty($item['nama_project'])): ?>
+                            <span class="item-meta" style="color: #2563eb; font-weight: 500;">Project: <?= htmlspecialchars($item['nama_project']) ?></span>
+                        <?php endif; ?>
                         <?php if(!empty($item['catatan_finishing'])): ?>
                             <span class="item-meta">Note: <?= htmlspecialchars($item['catatan_finishing']) ?></span>
                         <?php endif; ?>
