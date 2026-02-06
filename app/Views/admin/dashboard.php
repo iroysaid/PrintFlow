@@ -33,58 +33,7 @@
         </div>
     </div>
 
-    <!-- Promo Settings -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-header bg-white py-3">
-            <h5 class="fw-bold mb-0 text-primary"><i class="fas fa-bullhorn me-2"></i>Manage Promos (Home Page)</h5>
-        </div>
-        <div class="card-body">
-            <div class="row g-4">
-                <?php if(!empty($promos)): ?>
-                    <?php foreach($promos as $promo): ?>
-                    <div class="col-md-4">
-                        <div class="card h-100 border transition-all">
-                            <div class="card-header bg-light fw-bold text-center">
-                                Promo Slot #<?= $promo['index_num'] ?>
-                            </div>
-                            <div class="card-body">
-                                <form action="/admin/dashboard/updatePromo/<?= $promo['id'] ?>" method="post" enctype="multipart/form-data">
-                                    <!-- Image Preview -->
-                                    <div class="ratio ratio-4x3 bg-secondary mb-3 rounded overflow-hidden position-relative group-hover">
-                                        <?php if($promo['image']): ?>
-                                            <img src="/uploads/content/<?= $promo['image'] ?>" class="w-100 h-100 object-fit-cover" id="preview_<?= $promo['id'] ?>">
-                                        <?php else: ?>
-                                            <div class="d-flex align-items-center justify-content-center h-100 text-white">
-                                                <i class="fas fa-image fa-2x"></i>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <label class="small text-muted mb-1">Upload New Image (4:3)</label>
-                                        <input type="file" name="image" class="form-control form-control-sm" accept="image/*">
-                                    </div>
 
-                                    <div class="mb-3">
-                                        <label class="small text-muted mb-1">Title</label>
-                                        <input type="text" name="title" class="form-control form-control-sm" value="<?= esc($promo['title']) ?>" placeholder="Promo Title">
-                                    </div>
-
-                                    <div class="mb-2">
-                                        <label class="small text-muted mb-1">Content</label>
-                                        <textarea name="content" class="form-control form-control-sm" rows="2" placeholder="Short description..."><?= esc($promo['content']) ?></textarea>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-primary btn-sm w-100 mt-2"><i class="fas fa-save me-1"></i> Update Promo</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
         <div class="card-header bg-white py-3">
             <h5 class="fw-bold mb-0 text-primary"><i class="fas fa-tasks me-2"></i>Production Queue</h5>
         </div>

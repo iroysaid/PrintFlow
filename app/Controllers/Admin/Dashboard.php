@@ -8,12 +8,11 @@ use App\Models\TransactionDetailModel;
 
 class Dashboard extends BaseController
 {
-    private $siteContentModel;
+    private $transactionModel;
 
     public function __construct()
     {
         $this->transactionModel = new TransactionModel();
-        $this->siteContentModel = new \App\Models\SiteContentModel();
     }
 
     public function index()
@@ -38,15 +37,11 @@ class Dashboard extends BaseController
         // Production Queue
         $queue = $this->transactionModel->getProductionQueue();
         
-        // Fetch Promos
-        $promos = $this->siteContentModel->where('section', 'promo')->orderBy('index_num', 'ASC')->findAll();
-
         return view('admin/dashboard', [
             'incomeToday' => $incomeToday,
             'ordersToday' => $ordersToday,
             'onProgress'  => $onProgress,
-            'queue'       => $queue,
-            'promos'      => $promos
+            'queue'       => $queue
         ]);
     }
 
@@ -59,25 +54,5 @@ class Dashboard extends BaseController
         return redirect()->back();
     }
 
-    public function updatePromo($id)
-    {
-        $title = $this->request->getPost('title');
-        $content = $this->request->getPost('content');
-        $file = $this->request->getFile('image');
 
-        $data = [
-            'title'   => $title,
-            'content' => $content,
-        ];
-
-        if ($file && $file->isValid() && !$file->hasMoved()) {
-            $newName = $file->getRandomName();
-            $file->move(FCPATH . 'uploads/content', $newName);
-            $data['image'] = $newName;
-        }
-
-        $this->siteContentModel->update($id, $data);
-
-        return redirect()->back()->with('success', 'Promo updated successfully.');
-    }
 }

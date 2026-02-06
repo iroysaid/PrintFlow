@@ -95,7 +95,7 @@
                     <?php foreach($promos as $promo): ?>
                     <div class="col-md-4">
                         <div class="card border-0 shadow-sm h-100 overflow-hidden">
-                            <div class="ratio ratio-4x3 bg-secondary">
+                            <div class="ratio bg-secondary" style="--bs-aspect-ratio: 133.33%;">
                                 <?php if($promo['image']): ?>
                                     <img src="/uploads/content/<?= $promo['image'] ?>" class="card-img-top object-fit-cover" alt="<?= esc($promo['title']) ?>">
                                 <?php else: ?>

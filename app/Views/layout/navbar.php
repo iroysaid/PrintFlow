@@ -15,6 +15,9 @@
                             <a class="nav-link <?= uri_string() == 'admin/dashboard' ? 'active' : '' ?>" href="/admin/dashboard">Dashboard</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link <?= uri_string() == 'admin/promos' ? 'active' : '' ?>" href="/admin/promos">Content & Promos</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link <?= uri_string() == 'admin/products' ? 'active' : '' ?>" href="/admin/products">Inventory</a>
                         </li>
                         <li class="nav-item">
