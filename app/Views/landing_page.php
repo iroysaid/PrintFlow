@@ -107,7 +107,7 @@
                 <?php if(!empty($promos)): ?>
                     <?php foreach($promos as $promo): ?>
                     <div class="col-md-4">
-                        <div class="card border-0 shadow-sm h-100 overflow-hidden hover-zoom">
+                        <div class="card border-0 shadow-sm h-100 overflow-hidden hover-zoom rounded-4">
                             <div class="ratio bg-secondary" style="--bs-aspect-ratio: 133.33%;">
                                 <?php if($promo['image']): ?>
                                     <img src="/uploads/content/<?= $promo['image'] ?>" class="card-img-top object-fit-cover transition-transform" alt="<?= esc($promo['title']) ?>">
@@ -129,7 +129,7 @@
                     <!-- Fallback to Posts if Promos empty (Previous Logic) -->
                      <?php foreach($posts as $post): ?>
                     <div class="col-md-4">
-                        <div class="card border-0 shadow-sm h-100 overflow-hidden hover-zoom">
+                        <div class="card border-0 shadow-sm h-100 overflow-hidden hover-zoom rounded-4">
                             <div class="ratio ratio-4x3 bg-secondary">
                                 <?php if($post['image']): ?>
                                     <img src="/uploads/<?= $post['image'] ?>" class="card-img-top object-fit-cover transition-transform" alt="Promo">
