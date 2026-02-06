@@ -108,19 +108,25 @@
                                 </div>
                             </template>
 
-                                    <button class="btn btn-outline-secondary" @click="item.qty++; updateSubtotal(item)">+</button>
+                            <!-- Quantity -->
+                            <div class="col-4">
+                                <div class="input-group input-group-sm">
+                                    <button class="btn btn-outline-secondary px-2" @click="item.qty > 1 ? item.qty-- : null; updateSubtotal(item)">-</button>
+                                    <input type="number" x-model.number="item.qty" class="form-control text-center px-1" @input="updateSubtotal(item)">
+                                    <button class="btn btn-outline-secondary px-2" @click="item.qty++; updateSubtotal(item)">+</button>
                                 </div>
                             </div>
                             <!-- Discount Input -->
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="input-group input-group-sm">
-                                    <span class="input-group-text">Disc%</span>
-                                    <input type="number" x-model.number="item.diskon_persen" class="form-control text-center" min="0" max="100" @input="updateSubtotal(item)">
+                                    <span class="input-group-text px-1">D%</span>
+                                    <input type="number" x-model.number="item.diskon_persen" class="form-control text-center px-1" min="0" max="100" @input="updateSubtotal(item)">
                                 </div>
                             </div>
-                            <div class="col-6 text-end">
+                            <!-- Subtotal -->
+                            <div class="col-4 text-end">
                                 <span class="fw-bold fs-6" x-text="formatRupiah(item.subtotal)"></span>
-                                <div x-show="item.diskon_persen > 0" class="text-success small" x-text="`Desc ${item.diskon_persen}%`"></div>
+                                <div x-show="item.diskon_persen > 0" class="text-success small" style="font-size: 0.75rem;" x-text="`Desc ${item.diskon_persen}%`"></div>
                             </div>
                         </div>
 
