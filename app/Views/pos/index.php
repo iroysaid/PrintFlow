@@ -45,6 +45,7 @@
             <div class="input-group mb-2">
                 <span class="input-group-text bg-light border-0"><i class="fas fa-phone"></i></span>
                 <input type="text" x-model="customer.no_hp" @change="checkCustomer()" @input="customer.no_hp = customer.no_hp.replace(/[^0-9]/g, '')" class="form-control bg-light border-0" placeholder="Phone (Numbers only, min 10)" maxlength="15">
+                <button class="btn btn-outline-info" @click="showHistory()" :disabled="customer.no_hp.length < 5" title="View History"><i class="fas fa-history"></i></button>
             </div>
             <input type="text" x-model="customer.nama_customer" class="form-control bg-light border-0" placeholder="Customer Name">
         </div>
@@ -156,13 +157,41 @@
                         </div>
                     </div>
 
+    <div class="modal fade" id="historyModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-history me-2"></i>Order History</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-footer border-0 p-4 pt-0">
-                    <button type="button" class="btn btn-light w-100 mb-2" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary w-100 fw-bold py-2" @click="submitTransaction()" :disabled="processing">
-                        <span x-show="!processing">CONFIRM ORDER</span>
-                        <span x-show="processing"><i class="fas fa-spinner fa-spin"></i> Processing...</span>
-                    </button>
+                <div class="modal-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="ps-4">Date</th>
+                                    <th>Invoice</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template x-for="h in history" :key="h.id">
+                                    <tr>
+                                        <td class="ps-4" x-text="h.tgl_masuk"></td>
+                                        <td class="fw-bold" x-text="h.no_invoice"></td>
+                                        <td x-text="formatRupiah(h.grand_total)"></td>
+                                        <td>
+                                            <span class="badge" :class="h.status_bayar === 'lunas' ? 'bg-success' : 'bg-warning text-dark'" x-text="h.status_bayar"></span>
+                                        </td>
+                                    </tr>
+                                </template>
+                                <tr x-show="history.length === 0">
+                                    <td colspan="4" class="text-center py-4 text-muted">No history found for this number.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -176,6 +205,7 @@ function posApp() {
         searchQuery: '',
         products: [],
         cart: [],
+        history: [],
         customer: {
             no_hp: '',
             nama_customer: ''
@@ -210,6 +240,17 @@ function posApp() {
                         }
                     });
             }
+        },
+
+        showHistory() {
+            if(this.customer.no_hp.length < 5) return;
+            
+            fetch(`/pos/getCustomerHistory?phone=${this.customer.no_hp}`)
+                .then(res => res.json())
+                .then(data => {
+                    this.history = data;
+                    new bootstrap.Modal(document.getElementById('historyModal')).show();
+                });
         },
 
         addToCart(product) {

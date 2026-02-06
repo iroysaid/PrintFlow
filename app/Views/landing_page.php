@@ -130,7 +130,7 @@
                 <a href="#" class="text-white"><i class="fab fa-instagram fa-lg"></i></a>
                 <a href="#" class="text-white"><i class="fab fa-whatsapp fa-lg"></i></a>
             </div>
-            <small class="opacity-50">&copy; <?= date('Y') ?> Wise Printing. All rights reserved.</small>
+            <small class="opacity-50">&copy; <?= date('Y') ?> Wise Printing. Version 1.01 | Developed by iroysaid</small>
         </div>
     </footer>
 

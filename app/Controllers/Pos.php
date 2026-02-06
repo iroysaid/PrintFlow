@@ -53,6 +53,24 @@ class Pos extends BaseController
         }
     }
 
+    public function getCustomerHistory()
+    {
+        $phone = $this->request->getGet('phone');
+        if (empty($phone)) {
+            return $this->response->setJSON([]);
+        }
+
+        // Fetch last 10 transactions for this phone number
+        // Note: We are trusting the phone number stored in transactions table directly
+        $history = $this->transactionModel
+            ->where('customer_phone', $phone)
+            ->orderBy('created_at', 'DESC')
+            ->limit(10)
+            ->findAll();
+            
+        return $this->response->setJSON($history);
+    }
+
     public function saveTransaction()
     {
         $json = $this->request->getJSON();

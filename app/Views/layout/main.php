@@ -28,7 +28,7 @@
 
     <footer class="bg-light text-center py-3 mt-auto border-top">
         <div class="container">
-            <small class="text-muted">&copy; <?= date('Y') ?> Wise Printing Digital Printing. Version 2.0</small>
+            <small class="text-muted">&copy; <?= date('Y') ?> Wise Printing. Version 1.01 | <i class="fas fa-code"></i> Developed by <a href="#" class="text-decoration-none text-muted fw-bold">iroysaid</a></small>
         </div>
     </footer>
 

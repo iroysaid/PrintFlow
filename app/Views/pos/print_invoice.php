@@ -205,10 +205,14 @@
         }
 
         @media print {
-            body { background: white; }
+            body { 
+                background: white; 
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact;
+            }
             .page { width: 100%; border: none; padding: 0; margin: 0; }
             .no-print { display: none; }
-            @page { margin: 20mm; size: A4; }
+            @page { margin: 0; size: A4; } /* Zero margin on page, let .page class handle padding */
         }
     </style>
 </head>
