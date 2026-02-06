@@ -158,9 +158,8 @@ class Pos extends BaseController
             // New Format: WISE/4448(ddmmyy)/Seq
             $prefix = 'WISE/4448' . date('dmy') . '/';
             
-            // Get Sequence
-            $today = date('Y-m-d');
-            $count = $this->transactionModel->where("DATE(created_at)", $today)->countAllResults();
+            // Get Sequence (Global - No Reset)
+            $count = $this->transactionModel->countAllResults();
             $seq = str_pad($count + 1, 4, '0', STR_PAD_LEFT);
             
             $invoiceNo = $prefix . $seq;
