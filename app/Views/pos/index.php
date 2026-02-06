@@ -44,7 +44,7 @@
             <h5 class="fw-bold mb-3"><i class="fas fa-user-edit me-2 text-primary"></i>Customer Info</h5>
             <div class="input-group mb-2 position-relative">
                 <span class="input-group-text bg-light border-0"><i class="fas fa-phone"></i></span>
-                <input type="text" x-model="customer.no_hp" @input.debounce.300ms="searchCustomer($event.target.value, 'phone')" @click.away="showCustomerDropdown = false" class="form-control bg-light border-0" placeholder="Phone (10-14 digit)" maxlength="14">
+                <input type="text" x-model="customer.no_hp" @input="customer.no_hp = $event.target.value.replace(/[^0-9]/g, '');" @keyup.debounce.300ms="searchCustomer(customer.no_hp, 'phone')" @click.away="showCustomerDropdown = false" class="form-control bg-light border-0" placeholder="Phone (10-14 digit)" maxlength="14" pattern="[0-9]*" inputmode="numeric">
                 
                 <!-- Autocomplete Dropdown (Phone) -->
                 <div x-show="showCustomerDropdown && customerList.length > 0 && activeSearchField === 'phone'" class="position-absolute start-0 top-100 w-100 bg-white shadow rounded z-3 mt-1" style="max-height: 200px; overflow-y: auto; display: none;">
