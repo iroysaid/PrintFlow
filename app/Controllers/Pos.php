@@ -155,7 +155,15 @@ class Pos extends BaseController
 
             // 2. Transaction Header Data
             $datePart = date('Ymd');
-            $invoiceNo = 'INV/' . $datePart . '/' .  str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
+            // New Format: WISE/4448(ddmmyy)/Seq
+            $prefix = 'WISE/4448' . date('dmy') . '/';
+            
+            // Get Sequence
+            $today = date('Y-m-d');
+            $count = $this->transactionModel->where("DATE(created_at)", $today)->countAllResults();
+            $seq = str_pad($count + 1, 4, '0', STR_PAD_LEFT);
+            
+            $invoiceNo = $prefix . $seq;
             
             // Completion Date Calculation
             $estimasi = $json->estimasi_hari ?? 1;

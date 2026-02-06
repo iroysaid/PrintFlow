@@ -18,19 +18,14 @@
                         </li>
                     <?php endif; ?>
 
-                    <!-- 2. POS -->
+                    <!-- 2. POS (Renamed to Order) -->
                     <?php if($session->get('role') == 'cashier' || $session->get('role') == 'admin'): ?>
                         <li class="nav-item">
-                            <a class="nav-link <?= uri_string() == 'pos' ? 'active' : '' ?>" href="/pos">POS</a>
+                            <a class="nav-link <?= uri_string() == 'pos' ? 'active' : '' ?>" href="/pos">Order</a>
                         </li>
                     <?php endif; ?>
 
-                    <!-- 3. Orders (Transactions) -->
-                    <?php if($session->get('role') == 'admin' || $session->get('role') == 'production'): ?>
-                        <li class="nav-item">
-                            <a class="nav-link <?= uri_string() == 'admin/transactions' ? 'active' : '' ?>" href="/admin/transactions">Orders</a>
-                        </li>
-                    <?php endif; ?>
+                    <!-- 3. Orders (Removed as per request) -->
 
                     <!-- 4. History -->
                     <?php if($session->get('role') == 'cashier' || $session->get('role') == 'admin'): ?>
