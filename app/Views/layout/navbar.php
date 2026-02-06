@@ -46,9 +46,7 @@
                         </ul>
                     </li>
                 <?php else: ?>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-light px-4 ms-2" href="/login">Login</a>
-                    </li>
+                    <!-- Login hidden for security -->
                 <?php endif; ?>
             </ul>
         </div>
