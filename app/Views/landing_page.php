@@ -11,6 +11,14 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 </head>
+<style>
+    .hover-zoom .card-img-top {
+        transition: transform 0.5s ease;
+    }
+    .hover-zoom:hover .card-img-top {
+        transform: scale(1.1);
+    }
+</style>
 <body class="bg-white">
 
     <!-- Transparent Navbar for Landing -->
@@ -90,21 +98,19 @@
     <!-- News & Promos -->
     <section id="news" class="py-5 bg-white">
         <div class="container py-5">
-            <div class="d-flex justify-content-between align-items-end mb-4">
-                <div>
-                    <h2 class="fw-bold text-primary">Berita & Promo</h2>
-                    <p class="text-muted mb-0">Update terbaru dari workshop kami</p>
-                </div>
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-primary">Berita & Promo</h2>
+                <p class="text-muted">Update terbaru dari workshop kami</p>
             </div>
 
             <div class="row g-4">
                 <?php if(!empty($promos)): ?>
                     <?php foreach($promos as $promo): ?>
                     <div class="col-md-4">
-                        <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                        <div class="card border-0 shadow-sm h-100 overflow-hidden hover-zoom">
                             <div class="ratio bg-secondary" style="--bs-aspect-ratio: 133.33%;">
                                 <?php if($promo['image']): ?>
-                                    <img src="/uploads/content/<?= $promo['image'] ?>" class="card-img-top object-fit-cover" alt="<?= esc($promo['title']) ?>">
+                                    <img src="/uploads/content/<?= $promo['image'] ?>" class="card-img-top object-fit-cover transition-transform" alt="<?= esc($promo['title']) ?>">
                                 <?php else: ?>
                                     <div class="d-flex align-items-center justify-content-center h-100 text-white">
                                         <i class="fas fa-image fa-2x"></i>
@@ -123,10 +129,10 @@
                     <!-- Fallback to Posts if Promos empty (Previous Logic) -->
                      <?php foreach($posts as $post): ?>
                     <div class="col-md-4">
-                        <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                        <div class="card border-0 shadow-sm h-100 overflow-hidden hover-zoom">
                             <div class="ratio ratio-4x3 bg-secondary">
                                 <?php if($post['image']): ?>
-                                    <img src="/uploads/<?= $post['image'] ?>" class="card-img-top object-fit-cover" alt="Promo">
+                                    <img src="/uploads/<?= $post['image'] ?>" class="card-img-top object-fit-cover transition-transform" alt="Promo">
                                 <?php else: ?>
                                     <div class="d-flex align-items-center justify-content-center h-100 text-white">
                                         <i class="fas fa-image fa-2x"></i>
