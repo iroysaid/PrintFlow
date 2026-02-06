@@ -40,7 +40,7 @@
         <div class="container">
             <h1 class="display-3 fw-bold mb-3">Percetakan Digital Tercepat & Terbaik</h1>
             <p class="lead mb-4 opacity-75">Solusi cetak spanduk, sticker, dan kartu nama dengan kualitas premium.</p>
-            <a href="https://wa.me/6281234567890" target="_blank" class="btn btn-warning btn-lg fw-bold text-dark px-5 py-3 shadow">PESAN SEKARANG</a>
+            <a href="https://wa.me/6281253714657" target="_blank" class="btn btn-warning btn-lg fw-bold text-dark px-5 py-3 shadow">PESAN SEKARANG</a>
         </div>
     </section>
 
@@ -186,7 +186,7 @@
             </div>
             
             <div class="text-center mt-5">
-                <a href="https://wa.me/6281234567890" target="_blank" class="btn btn-outline-primary rounded-pill px-4">
+                <a href="https://wa.me/6281253714657" target="_blank" class="btn btn-outline-primary rounded-pill px-4">
                     <i class="fab fa-whatsapp me-2"></i>Tanya Harga Spesifik
                 </a>
             </div>
@@ -203,7 +203,7 @@
             <div class="d-flex justify-content-center gap-3 mb-4">
                 <a href="#" class="text-white"><i class="fab fa-facebook fa-lg"></i></a>
                 <a href="#" class="text-white"><i class="fab fa-instagram fa-lg"></i></a>
-                <a href="#" class="text-white"><i class="fab fa-whatsapp fa-lg"></i></a>
+                <a href="https://wa.me/6281253714657" class="text-white" target="_blank"><i class="fab fa-whatsapp fa-lg"></i></a>
             </div>
             <small class="opacity-50">&copy; <?= date('Y') ?> Wise Printing. Version 1.01 | Developed by iroysaid</small>
         </div>
