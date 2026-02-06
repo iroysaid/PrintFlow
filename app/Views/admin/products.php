@@ -23,6 +23,7 @@
                     <thead>
                         <tr>
                             <th class="ps-4">Code</th>
+                            <th>Image</th> <!-- New Column -->
                             <th>Name</th>
                             <th>Type</th>
                             <th>Base Price</th>
@@ -34,6 +35,13 @@
                         <?php foreach($products as $p): ?>
                         <tr>
                             <td class="ps-4 text-muted"><?= $p['kode_barang'] ?></td>
+                            <td>
+                                <?php if($p['gambar']): ?>
+                                    <img src="/uploads/products/<?= $p['gambar'] ?>" alt="Img" class="rounded" style="width: 40px; height: 40px; object-fit: cover;">
+                                <?php else: ?>
+                                    <span class="badge bg-light text-secondary">No Img</span>
+                                <?php endif; ?>
+                            </td>
                             <td><?= $p['nama_barang'] ?></td>
                             <td>
                                 <span class="badge <?= $p['jenis_harga'] == 'meter' ? 'bg-info text-dark' : 'bg-secondary' ?>">
@@ -63,8 +71,12 @@
                 <h5 class="modal-title">Add Product</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="/admin/products/create" method="post">
+            <form action="/admin/products/create" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
+                    <div class="mb-3">
+                        <label>Product Image</label>
+                        <input type="file" name="gambar" class="form-control" accept="image/*">
+                    </div>
                     <div class="mb-3">
                         <label>Code</label>
                         <input type="text" name="kode_barang" class="form-control" required>
@@ -107,8 +119,15 @@
                 <h5 class="modal-title">Edit Product</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form id="editForm" method="post">
+            <form id="editForm" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
+                    <div class="text-center mb-3">
+                        <img id="edit_preview" src="" class="img-thumbnail" style="max-height: 150px; display: none;">
+                    </div>
+                    <div class="mb-3">
+                        <label>Change Image</label>
+                        <input type="file" name="gambar" class="form-control" accept="image/*">
+                    </div>
                     <div class="mb-3">
                         <label>Code</label>
                         <input type="text" id="edit_kode" name="kode_barang" class="form-control" required>
@@ -151,6 +170,16 @@ function populateEdit(product) {
     document.getElementById('edit_harga').value = product.harga_dasar;
     document.getElementById('edit_stok').value = product.stok;
     document.getElementById('editForm').action = '/admin/products/update/' + product.id;
+    
+    // Preview Image
+    const preview = document.getElementById('edit_preview');
+    if (product.gambar) {
+        preview.src = '/uploads/products/' + product.gambar;
+        preview.style.display = 'block';
+    } else {
+        preview.style.display = 'none';
+        preview.src = '';
+    }
     
     var myModal = new bootstrap.Modal(document.getElementById('editProductModal'));
     myModal.show();
