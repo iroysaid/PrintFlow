@@ -26,6 +26,9 @@
                 <ul class="navbar-nav ms-auto gap-3">
                     <li class="nav-item"><a class="nav-link text-white" href="#services">Services</a></li>
                     
+                    <li class="nav-item"><a class="nav-link text-white" href="#pricelist">Pricelist</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#news">News & Promo</a></li>
+                    
                     <?php if(session()->get('logged_in')): ?>
                         <li class="nav-item">
                             <a class="btn btn-warning fw-bold text-dark px-4" href="<?= (session()->get('role') == 'cashier') ? '/pos' : '/admin/dashboard' ?>">
@@ -33,8 +36,6 @@
                             </a>
                         </li>
                     <?php endif; ?>
-                    <li class="nav-item"><a class="nav-link text-white" href="#pricelist">Pricelist</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="#news">News & Promo</a></li>
                     <!-- Login Button Hiden -->
                 </ul>
             </div>
