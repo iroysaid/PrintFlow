@@ -15,19 +15,43 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: var(--dark);
             background: #fff;
-            margin: 0;
-            padding: 0;
-            line-height: 1.5;
+        @media print {
+            @page {
+                size: A4;
+                margin: 0; /* Use 0 here to avoid double margins with body padding */
+            }
+            body {
+                margin: 0;
+                padding: 2.5cm !important; /* Force margin via padding on body */
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                width: 100%;
+            }
+            .page {
+                border: none;
+                padding: 0;
+                margin: 0;
+                width: 100%;
+                box-shadow: none;
+            }
+            .no-print {
+                display: none !important;
+            }
         }
-        .page {
-            width: 210mm;
-            min-height: 297mm;
-            padding: 20mm;
-            margin: 0 auto;
-            background: white;
-            box-sizing: border-box;
-            position: relative;
+        .invoice-header h1 {
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0;
         }
+        .invoice-header p {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container invoice-container">
         
         /* Header */
         .invoice-header {
