@@ -58,7 +58,7 @@
                             </td>
                             <td class="text-primary fw-bold">Rp <?= number_format($t['grand_total'], 0, ',', '.') ?></td>
                             <td class="text-end pe-4">
-                                <a href="/pos/printInvoice/<?= $t['id'] ?>" target="_blank" class="btn btn-sm btn-outline-primary" title="Lihat Nota">
+                                <a href="/pos/printInvoice/<?= $t['id'] ?>?from=history" target="_blank" class="btn btn-sm btn-outline-primary" title="Lihat Nota">
                                     <i class="fas fa-file-invoice"></i> Nota
                                 </a>
                             </td>

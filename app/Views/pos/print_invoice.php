@@ -240,7 +240,12 @@
 
     <div class="no-print">
         <a href="javascript:window.print()"><i class="fas fa-print"></i> Print</a>
-        <a href="/pos"><i class="fas fa-arrow-left"></i> Back to POS</a>
+        <?php 
+        $source = $_GET['from'] ?? 'pos';
+        $backLink = ($source === 'history') ? '/pos/history' : '/pos';
+        $backText = ($source === 'history') ? 'Back to History' : 'Back to POS';
+        ?>
+        <a href="<?= $backLink ?>"><i class="fas fa-arrow-left"></i> <?= $backText ?></a>
     </div>
 
     <div class="page">
