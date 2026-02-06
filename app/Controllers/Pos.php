@@ -41,6 +41,22 @@ class Pos extends BaseController
         return $this->response->setJSON($products);
     }
 
+    public function searchCustomer()
+    {
+        $term = $this->request->getGet('term');
+        if (empty($term)) {
+            return $this->response->setJSON([]);
+        }
+
+        $customers = $this->customerModel
+            ->like('no_hp', $term)
+            ->orLike('nama_customer', $term)
+            ->limit(10)
+            ->findAll();
+
+        return $this->response->setJSON($customers);
+    }
+
     public function checkCustomer()
     {
         $phone = $this->request->getGet('phone');

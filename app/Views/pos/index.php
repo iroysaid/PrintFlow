@@ -40,13 +40,27 @@
     <div class="col-md-5 col-lg-4 bg-white d-flex flex-column shadow-lg" style="height: calc(100vh - 60px);">
         
         <!-- Customer Info -->
-        <div class="p-3 bg-white border-bottom">
+        <div class="p-3 bg-white border-bottom position-relative">
             <h5 class="fw-bold mb-3"><i class="fas fa-user-edit me-2 text-primary"></i>Customer Info</h5>
             <div class="input-group mb-2">
                 <span class="input-group-text bg-light border-0"><i class="fas fa-phone"></i></span>
-                <input type="text" x-model="customer.no_hp" @change="checkCustomer()" @input="customer.no_hp = customer.no_hp.replace(/[^0-9]/g, '')" class="form-control bg-light border-0" placeholder="Phone (Numbers only, min 10)" maxlength="15">
-                <button class="btn btn-outline-info" @click="showHistory()" :disabled="customer.no_hp.length < 5" title="View History"><i class="fas fa-history"></i></button>
+                <input type="text" x-model="customer.no_hp" @input="searchCustomer()" @click.away="showCustomerDropdown = false" class="form-control bg-light border-0" placeholder="Phone (10-14 digit)" maxlength="14">
             </div>
+            
+            <!-- Autocomplete Dropdown -->
+            <div x-show="showCustomerDropdown && customerList.length > 0" class="position-absolute bg-white shadow rounded w-100 z-3" style="margin-top: -10px; max-height: 200px; overflow-y: auto;">
+                <ul class="list-group list-group-flush">
+                    <template x-for="c in customerList" :key="c.id">
+                        <li class="list-group-item list-group-item-action cursor-pointer" @click="selectCustomer(c)">
+                            <div class="d-flex justify-content-between">
+                                <span class="fw-bold" x-text="c.nama_customer"></span>
+                                <span class="text-muted small" x-text="c.no_hp"></span>
+                            </div>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+
             <input type="text" x-model="customer.nama_customer" class="form-control bg-light border-0" placeholder="Customer Name">
         </div>
 
@@ -210,6 +224,8 @@ function posApp() {
             no_hp: '',
             nama_customer: ''
         },
+        customerList: [],
+        showCustomerDropdown: false,
         payment: {
             amount_paid: 0,
             discount: 0,
@@ -230,16 +246,29 @@ function posApp() {
                 });
         },
 
-        checkCustomer() {
-            if(this.customer.no_hp.length > 5) {
-                fetch(`/pos/checkCustomer?phone=${this.customer.no_hp}`)
-                    .then(res => res.json())
-                    .then(res => {
-                        if(res.status == 'found') {
-                            this.customer.nama_customer = res.data.nama_customer;
-                        }
-                    });
+        // Autocomplete Search
+        searchCustomer() {
+            // Numeric filter
+            this.customer.no_hp = this.customer.no_hp.replace(/[^0-9]/g, '');
+            
+            if(this.customer.no_hp.length < 3) {
+                this.customerList = [];
+                this.showCustomerDropdown = false;
+                return;
             }
+
+            fetch(`/pos/searchCustomer?term=${this.customer.no_hp}`)
+                .then(res => res.json())
+                .then(data => {
+                    this.customerList = data;
+                    this.showCustomerDropdown = data.length > 0;
+                });
+        },
+
+        selectCustomer(c) {
+            this.customer.no_hp = c.no_hp;
+            this.customer.nama_customer = c.nama_customer;
+            this.showCustomerDropdown = false;
         },
 
         showHistory() {
@@ -322,9 +351,14 @@ function posApp() {
         submitTransaction() {
             this.processing = true;
             
+            if (this.customer.no_hp.length < 10 || this.customer.no_hp.length > 14) {
+                alert('Nomor HP harus antara 10 - 14 digit!');
+                this.processing = false;
+                return;
+            }
+
             let payload = {
                 items: this.cart,
-                customer: this.customer,
                 customer: this.customer,
                 total_asli: this.subTotal,
                 diskon: this.payment.discount,
