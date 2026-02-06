@@ -294,7 +294,10 @@ class Pos extends BaseController
             return redirect()->to('/pos/history')->with('success', 'Transaksi berhasil dihapus.');
 
         } catch (\Exception $e) {
-            $db->transRollback();
+            return redirect()->to('/pos/history')->with('error', 'Error: ' . $e->getMessage());
+        }
+    }
+
     public function editTransaction($id)
     {
         $transaction = $this->transactionModel->find($id);
@@ -361,3 +364,4 @@ class Pos extends BaseController
 
         return redirect()->to('/pos/history')->with('success', 'Transaksi berhasil diperbarui.');
     }
+}
