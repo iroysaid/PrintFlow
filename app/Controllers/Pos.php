@@ -65,16 +65,26 @@ class Pos extends BaseController
         $db->transStart();
 
         try {
-            // 1. Handle Customer
+            // 1. Validation & Sanitization
+            $phone = preg_replace('/[^0-9]/', '', $json->customer->no_hp ?? '');
+            $name  = htmlspecialchars(strip_tags($json->customer->nama_customer ?? 'Guest'));
+            
+            if (strlen($phone) < 10) {
+                return $this->response->setStatusCode(400)->setJSON(['status' => 'error', 'message' => 'Nomor HP harus angka & minimal 10 digit!']);
+            }
+
+            // Handle Customer
             $customerId = null;
-            if (!empty($json->customer->no_hp)) {
-                $existingCustomer = $this->customerModel->where('no_hp', $json->customer->no_hp)->first();
+            if (!empty($phone)) {
+                $existingCustomer = $this->customerModel->where('no_hp', $phone)->first();
                 if ($existingCustomer) {
                     $customerId = $existingCustomer['id'];
+                    // Update name if changed? Optional. Let's keep existing name or update it.
+                    // $this->customerModel->update($customerId, ['nama_customer' => $name]);
                 } else {
                     $this->customerModel->insert([
-                        'no_hp'         => $json->customer->no_hp,
-                        'nama_customer' => $json->customer->nama_customer ?? 'Guest',
+                        'no_hp'         => $phone,
+                        'nama_customer' => $name,
                     ]);
                     $customerId = $this->customerModel->getInsertID();
                 }
@@ -88,26 +98,28 @@ class Pos extends BaseController
             $estimasi = $json->estimasi_hari ?? 1;
             $tglSelesai = date('Y-m-d', strtotime("+$estimasi days"));
 
-            $statusBayar = ($json->nominal_bayar >= $json->grand_total) ? 'lunas' : 'belum_lunas';
+            // Logic Status Bayar
+            // Calculate Remainder safely
+            $grandTotal = $json->grand_total;
+            $nominalBayar = $json->nominal_bayar;
+            $remainder = $grandTotal - $nominalBayar;
+            
+            // Tolerance of small float diff or simple logic
+            $statusBayar = ($remainder <= 0) ? 'lunas' : 'belum_lunas';
 
             $transactionData = [
                 'no_invoice'      => $invoiceNo,
-                'customer_id'     => null, // Keeping schema strict? No, migrated to store name/phone but let's try to link if we can. 
-                                           // The NEW migration CreateTransactionsTable has 'customer_name' and 'customer_phone' but removed 'customer_id' relation?
-                                           // WAIT. The migration I wrote for Transactions *HAS* 'customer_name' but I *DID NOT* include 'customer_id' in that specific migration file content I generated in Step 319?
-                                           // Let me check Step 319 content. It has `customer_name`, `customer_phone`. It DOES NOT have `customer_id`.
-                                           // However, the `createTransactionDetails` has FK to products.
-                                           // I should save `customer_name` and `phone` directly to `transactions` table as per new migration.
-                'customer_name'   => $json->customer->nama_customer ?? 'Guest',
-                'customer_phone'  => $json->customer->no_hp ?? '',
+                'customer_id'     => $customerId, // We have the ID now if we want to use it
+                'customer_name'   => $name,
+                'customer_phone'  => $phone,
                 'tgl_masuk'       => date('Y-m-d H:i:s'),
                 'estimasi_hari'   => $estimasi,
                 'tgl_selesai'     => $tglSelesai,
                 'total_asli'      => $json->total_asli ?? 0,
                 'diskon'          => $json->diskon ?? 0,
-                'grand_total'     => $json->grand_total,
-                'nominal_bayar'   => $json->nominal_bayar,
-                'sisa_bayar'      => $json->sisa_bayar,
+                'grand_total'     => $grandTotal,
+                'nominal_bayar'   => $nominalBayar,
+                'sisa_bayar'      => ($remainder > 0) ? $remainder : 0,
                 'metode_bayar'    => $json->metode_bayar ?? 'cash',
                 'status_bayar'    => $statusBayar,
                 'status_produksi' => 'queue',

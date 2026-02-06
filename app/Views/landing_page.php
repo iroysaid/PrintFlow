@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrintFlow - Percetakan Digital Terbaik</title>
+    <title>Wise Printing - Percetakan Digital Terbaik</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
@@ -17,7 +17,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm fixed-top">
         <div class="container">
             <a class="navbar-brand fw-bold" href="#">
-                <i class="fas fa-print me-2"></i>PrintFlow
+                <i class="fas fa-print me-2"></i>Wise Printing
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLanding">
                 <span class="navbar-toggler-icon"></span>
@@ -123,14 +123,14 @@
     <!-- Footer -->
     <footer class="bg-dark text-white py-4 mt-auto">
         <div class="container text-center">
-            <h4 class="fw-bold mb-3">PrintFlow Digital Printing</h4>
+            <h4 class="fw-bold mb-3">Wise Printing Digital Printing</h4>
             <p class="opacity-75 mb-4">Solusi cetak cepat, murah, dan berkualitas.</p>
             <div class="d-flex justify-content-center gap-3 mb-4">
                 <a href="#" class="text-white"><i class="fab fa-facebook fa-lg"></i></a>
                 <a href="#" class="text-white"><i class="fab fa-instagram fa-lg"></i></a>
                 <a href="#" class="text-white"><i class="fab fa-whatsapp fa-lg"></i></a>
             </div>
-            <small class="opacity-50">&copy; <?= date('Y') ?> PrintFlow. All rights reserved.</small>
+            <small class="opacity-50">&copy; <?= date('Y') ?> Wise Printing. All rights reserved.</small>
         </div>
     </footer>
 

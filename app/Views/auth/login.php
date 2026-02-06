@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | PrintFlow</title>
+    <title>Login | Wise Printing</title>
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -46,7 +46,7 @@
                         <!-- Left: Brand/Logo Area -->
                         <div class="col-md-5 login-brand p-5 d-flex flex-column justify-content-center text-center">
                             <i class="fas fa-print fa-4x mb-4"></i>
-                            <h2 class="fw-bold mb-2">PrintFlow</h2>
+                            <h2 class="fw-bold mb-2">Wise Printing</h2>
                             <p class="opacity-75">Sistem Manajemen Percetakan Digital Terintegrasi</p>
                         </div>
                         

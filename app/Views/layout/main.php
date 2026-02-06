@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrintFlow - Digital Printing System</title>
+    <title>Wise Printing - Digital Printing System</title>
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -28,7 +28,7 @@
 
     <footer class="bg-light text-center py-3 mt-auto border-top">
         <div class="container">
-            <small class="text-muted">&copy; <?= date('Y') ?> PrintFlow Digital Printing. Version 2.0</small>
+            <small class="text-muted">&copy; <?= date('Y') ?> Wise Printing Digital Printing. Version 2.0</small>
         </div>
     </footer>
 

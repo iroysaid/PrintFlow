@@ -44,7 +44,7 @@
             <h5 class="fw-bold mb-3"><i class="fas fa-user-edit me-2 text-primary"></i>Customer Info</h5>
             <div class="input-group mb-2">
                 <span class="input-group-text bg-light border-0"><i class="fas fa-phone"></i></span>
-                <input type="text" x-model="customer.no_hp" @change="checkCustomer()" class="form-control bg-light border-0" placeholder="Phone Number (Enter to check)">
+                <input type="text" x-model="customer.no_hp" @change="checkCustomer()" @input="customer.no_hp = customer.no_hp.replace(/[^0-9]/g, '')" class="form-control bg-light border-0" placeholder="Phone (Numbers only, min 10)" maxlength="15">
             </div>
             <input type="text" x-model="customer.nama_customer" class="form-control bg-light border-0" placeholder="Customer Name">
         </div>
@@ -123,7 +123,13 @@
                 </div>
                 <div class="modal-body p-4">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Total Bill</label>
+                        <label class="form-label fw-bold">Subtotal</label>
+                        <div class="fs-4 fw-bold text-secondary mb-2" x-text="formatRupiah(subTotal)"></div>
+
+                        <label class="form-label">Discount</label>
+                        <input type="number" x-model="payment.discount" class="form-control mb-3" placeholder="0" @input="calculateGrandTotal()">
+
+                        <label class="form-label fw-bold border-top pt-2">Grand Total</label>
                         <div class="fs-2 fw-bold text-primary mb-3" x-text="formatRupiah(grandTotal)"></div>
                     </div>
                     
@@ -176,6 +182,7 @@ function posApp() {
         },
         payment: {
             amount_paid: 0,
+            discount: 0,
             method: 'cash',
             estimasi: 1
         },
@@ -245,8 +252,12 @@ function posApp() {
             }
         },
 
-        get grandTotal() {
+        get subTotal() {
             return this.cart.reduce((sum, item) => sum + item.subtotal, 0);
+        },
+
+        get grandTotal() {
+            return this.subTotal - (parseInt(this.payment.discount) || 0);
         },
 
         formatRupiah(number) {
@@ -257,6 +268,9 @@ function posApp() {
             let modal = new bootstrap.Modal(document.getElementById('paymentModal'));
             modal.show();
             // Default amount paid to total
+            // Default amount paid to grand total, discount 0 reset if needed? No keep it.
+            // this.payment.amount_paid = this.grandTotal; // Don't auto-fill, let them type? Or auto-fill remainder.
+            // Let's auto-fill for convenience
             this.payment.amount_paid = this.grandTotal;
         },
 
@@ -270,8 +284,9 @@ function posApp() {
             let payload = {
                 items: this.cart,
                 customer: this.customer,
-                total_asli: this.grandTotal,
-                diskon: 0,
+                customer: this.customer,
+                total_asli: this.subTotal,
+                diskon: this.payment.discount,
                 grand_total: this.grandTotal,
                 nominal_bayar: this.payment.amount_paid,
                 sisa_bayar: (this.grandTotal - this.payment.amount_paid > 0) ? (this.grandTotal - this.payment.amount_paid) : 0,
