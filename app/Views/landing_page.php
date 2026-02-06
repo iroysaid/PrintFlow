@@ -39,7 +39,7 @@
         <div class="container">
             <h1 class="display-3 fw-bold mb-3">Percetakan Digital Tercepat & Terbaik</h1>
             <p class="lead mb-4 opacity-75">Solusi cetak spanduk, sticker, dan kartu nama dengan kualitas premium.</p>
-            <a href="/login" class="btn btn-warning btn-lg fw-bold text-dark px-5 py-3 shadow">PESAN SEKARANG</a>
+            <a href="https://wa.me/6281234567890" target="_blank" class="btn btn-warning btn-lg fw-bold text-dark px-5 py-3 shadow">PESAN SEKARANG</a>
         </div>
     </section>
 
