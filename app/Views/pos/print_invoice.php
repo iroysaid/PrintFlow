@@ -329,7 +329,12 @@
                             -
                         <?php endif; ?>
                     </td>
-                    <td style="text-align: right; font-weight: 500;"><?= number_format($item['subtotal'], 0, ',', '.') ?></td>
+                    <td style="text-align: right; font-weight: 500;">
+                        <?= number_format($item['subtotal'], 0, ',', '.') ?>
+                        <?php if(!empty($item['diskon_persen']) && $item['diskon_persen'] > 0): ?>
+                            <br><small style="color: #166534;">(Disc <?= $item['diskon_persen'] ?>%)</small>
+                        <?php endif; ?>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -356,9 +361,9 @@
                         <td class="label">Subtotal</td>
                         <td>Rp <?= number_format($transaction['total_asli'], 0, ',', '.') ?></td>
                     </tr>
-                    <?php if($transaction['diskon'] > 0): ?>
+                    <?php if($transaction['diskon_persen'] > 0 || $transaction['diskon'] > 0): ?>
                     <tr>
-                        <td class="label" style="color: #166534;">Discount</td>
+                        <td class="label" style="color: #166534;">Discount (<?= $transaction['diskon_persen'] ?>%)</td>
                         <td style="color: #166534;">- Rp <?= number_format($transaction['diskon'], 0, ',', '.') ?></td>
                     </tr>
                     <?php endif; ?>

@@ -170,23 +170,27 @@ class Pos extends BaseController
 
             // Logic Status Bayar
             // Calculate Remainder safely
-            $grandTotal = $json->grand_total;
+            // Calculate Global Discount based on Percent
+            $globalDiscPercent = $json->diskon_persen ?? 0;
+            $globalDiscount = $json->total_asli * ($globalDiscPercent / 100);
+            $grandTotal = $json->total_asli - $globalDiscount;
+
+            // Recalculate Remainder
             $nominalBayar = $json->nominal_bayar;
             $remainder = $grandTotal - $nominalBayar;
-            
-            // Tolerance of small float diff or simple logic
-            $statusBayar = ($remainder <= 0) ? 'lunas' : 'belum_lunas';
+            $statusBayar = ($remainder <= 0) ? 'lunas' : 'belum_lunas'; // Simple check
 
             $transactionData = [
                 'no_invoice'      => $invoiceNo,
-                'customer_id'     => $customerId, // We have the ID now if we want to use it
+                'customer_id'     => $customerId,
                 'customer_name'   => $name,
                 'customer_phone'  => $phone,
-                'tgl_masuk'       => $json->created_at ?? date('Y-m-d H:i:s'), // Use Client Time
+                'tgl_masuk'       => $json->created_at ?? date('Y-m-d H:i:s'), 
                 'estimasi_hari'   => $estimasi,
                 'tgl_selesai'     => $tglSelesai,
                 'total_asli'      => $json->total_asli ?? 0,
-                'diskon'          => $json->diskon ?? 0,
+                'diskon_persen'   => $globalDiscPercent,
+                'diskon'          => $globalDiscount, 
                 'grand_total'     => $grandTotal,
                 'nominal_bayar'   => $nominalBayar,
                 'sisa_bayar'      => ($remainder > 0) ? $remainder : 0,
@@ -211,20 +215,19 @@ class Pos extends BaseController
                 
                 $calculatedSubtotal = 0;
 
+                // Server-Side Strict Calculation
                 if ($product['jenis_harga'] == 'meter') {
-                    // Meter Calculation: (L x W x Price) * Qty
                     $area = $panjang * $lebar;
-                    // Rounding logic for meters? Usually minimum 1 meter? Let's assume standard math for now.
-                    if ($area < 1) $area = 1; // Optional business rule: Min 1 meter? Let's stick to raw calc first or assume Prompt implied standard area.
-                    // Actually prompt says: Formula: (Panjang * Lebar * Price) * Qty.
-                    $calculatedSubtotal = ($panjang * $lebar * $product['harga_dasar']) * $qty;
+                    if ($area < 1) $area = 1; // Min 1 meter rule assumption? Or exact? Using standard exact.
+                    $gross = ($panjang * $lebar * $product['harga_dasar']) * $qty;
                 } else {
-                    // Unit Calculation
-                    $calculatedSubtotal = $product['harga_dasar'] * $qty;
+                    $gross = $product['harga_dasar'] * $qty;
                 }
                 
-                // Use client subtotal or server? Server is safer.
-                // But let's trust client inputs for P/L/Qty and recalculate cost.
+                // Item Discount
+                $itemDiscPercent = $item->diskon_persen ?? 0;
+                $discAmount = $gross * ($itemDiscPercent / 100);
+                $calculatedSubtotal = $gross - $discAmount;
                 
                 $this->transactionDetailModel->insert([
                     'transaction_id'    => $transactionId,
@@ -235,6 +238,7 @@ class Pos extends BaseController
                     'qty'               => $qty,
                     'catatan_finishing' => $item->catatan_finishing ?? '',
                     'link_file'         => $item->link_file ?? '',
+                    'diskon_persen'     => $itemDiscPercent,
                     'subtotal'          => $calculatedSubtotal,
                 ]);
             }

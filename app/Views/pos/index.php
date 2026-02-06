@@ -418,16 +418,23 @@ function posApp() {
                 return;
             }
 
+            // Client Timestamp
+            const now = new Date();
+            const pad = (n) => n.toString().padStart(2, '0');
+            const clientTimestamp = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+
             let payload = {
                 items: this.cart,
                 customer: this.customer,
                 total_asli: this.subTotal,
-                diskon: this.payment.discount,
+                diskon_persen: this.payment.diskon_persen,
+                diskon: this.calculateDiscountAmount(), 
                 grand_total: this.grandTotal,
                 nominal_bayar: this.payment.amount_paid,
                 sisa_bayar: (this.grandTotal - this.payment.amount_paid > 0) ? (this.grandTotal - this.payment.amount_paid) : 0,
                 metode_bayar: this.payment.method,
-                estimasi_hari: this.payment.estimasi
+                estimasi_hari: this.payment.estimasi,
+                created_at: clientTimestamp
             };
 
             fetch('/pos/saveTransaction', {
