@@ -34,15 +34,15 @@
                     <tbody>
                         <?php foreach($products as $p): ?>
                         <tr>
-                            <td class="ps-4 text-muted"><?= $p['kode_barang'] ?></td>
+                            <td class="ps-4 text-muted"><?= esc($p['kode_barang']) ?></td>
                             <td>
                                 <?php if($p['gambar']): ?>
-                                    <img src="/uploads/products/<?= $p['gambar'] ?>" alt="Img" class="rounded" style="width: 40px; height: 40px; object-fit: cover;">
+                                    <img src="/uploads/products/<?= esc($p['gambar']) ?>" alt="Img" class="rounded" style="width: 40px; height: 40px; object-fit: cover;">
                                 <?php else: ?>
-                                    <span class="badge bg-light text-secondary">No Img</span>
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-center text-muted small" style="width: 40px; height: 40px;">No</div>
                                 <?php endif; ?>
                             </td>
-                            <td><?= $p['nama_barang'] ?></td>
+                            <td><?= esc($p['nama_barang']) ?></td>
                             <td>
                                 <span class="badge <?= $p['jenis_harga'] == 'meter' ? 'bg-info text-dark' : 'bg-secondary' ?>">
                                     <?= strtoupper($p['jenis_harga']) ?>
@@ -72,6 +72,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form action="/admin/products/create" method="post" enctype="multipart/form-data">
+                <?= csrf_field() ?>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label>Product Image</label>
@@ -120,6 +121,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form id="editForm" method="post" enctype="multipart/form-data">
+                <?= csrf_field() ?>
                 <div class="modal-body">
                     <div class="text-center mb-3">
                         <img id="edit_preview" src="" class="img-thumbnail" style="max-height: 150px; display: none;">
