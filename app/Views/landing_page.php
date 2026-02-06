@@ -80,6 +80,69 @@
 
     </section>
 
+    <!-- News & Promos -->
+    <section id="news" class="py-5 bg-white">
+        <div class="container py-5">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+                <div>
+                    <h2 class="fw-bold text-primary">Berita & Promo</h2>
+                    <p class="text-muted mb-0">Update terbaru dari workshop kami</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <?php if(!empty($promos)): ?>
+                    <?php foreach($promos as $promo): ?>
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                            <div class="ratio ratio-4x3 bg-secondary">
+                                <?php if($promo['image']): ?>
+                                    <img src="/uploads/content/<?= $promo['image'] ?>" class="card-img-top object-fit-cover" alt="<?= esc($promo['title']) ?>">
+                                <?php else: ?>
+                                    <div class="d-flex align-items-center justify-content-center h-100 text-white">
+                                        <i class="fas fa-image fa-2x"></i>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            
+                            <div class="card-body">
+                                <h5 class="fw-bold"><?= esc($promo['title']) ?></h5>
+                                <p class="card-text text-muted small"><?= esc($promo['content']) ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <!-- Fallback to Posts if Promos empty (Previous Logic) -->
+                     <?php foreach($posts as $post): ?>
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                            <div class="ratio ratio-4x3 bg-secondary">
+                                <?php if($post['image']): ?>
+                                    <img src="/uploads/<?= $post['image'] ?>" class="card-img-top object-fit-cover" alt="Promo">
+                                <?php else: ?>
+                                    <div class="d-flex align-items-center justify-content-center h-100 text-white">
+                                        <i class="fas fa-image fa-2x"></i>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            
+                            <div class="card-body">
+                                <span class="badge bg-primary mb-2 text-uppercase"><?= $post['category'] ?></span>
+                                <h5 class="fw-bold"><?= $post['title'] ?></h5>
+                                <p class="card-text text-muted small"><?= substr($post['content'], 0, 100) ?>...</p>
+                            </div>
+                            <div class="card-footer bg-white border-0 pb-3">
+                                <small class="text-muted"><?= date('d M Y', strtotime($post['created_at'])) ?></small>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </section>
+
     <!-- Pricelist Section -->
     <section id="pricelist" class="py-5 bg-light">
         <div class="container py-5">
@@ -130,48 +193,7 @@
         </div>
     </section>
 
-    <!-- News & Promos -->
-    <section id="news" class="py-5 bg-white">
-        <div class="container py-5">
-            <div class="d-flex justify-content-between align-items-end mb-4">
-                <div>
-                    <h2 class="fw-bold text-primary">Berita & Promo</h2>
-                    <p class="text-muted mb-0">Update terbaru dari workshop kami</p>
-                </div>
-            </div>
 
-            <div class="row g-4">
-                <?php foreach($posts as $post): ?>
-                <div class="col-md-4">
-                    <div class="card border-0 shadow-sm h-100 overflow-hidden">
-                        <?php if($post['image']): ?>
-                            <img src="/uploads/<?= $post['image'] ?>" class="card-img-top" alt="Promo" style="height: 200px; object-fit: cover;">
-                        <?php else: ?>
-                            <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
-                                <i class="fas fa-image fa-2x"></i>
-                            </div>
-                        <?php endif; ?>
-                        
-                        <div class="card-body">
-                            <span class="badge bg-primary mb-2 text-uppercase"><?= $post['category'] ?></span>
-                            <h5 class="fw-bold"><?= $post['title'] ?></h5>
-                            <p class="card-text text-muted small"><?= substr($post['content'], 0, 100) ?>...</p>
-                        </div>
-                        <div class="card-footer bg-white border-0 pb-3">
-                            <small class="text-muted"><?= date('d M Y', strtotime($post['created_at'])) ?></small>
-                        </div>
-                    </div>
-                </div>
-                <?php endforeach; ?>
-
-                <?php if(empty($posts)): ?>
-                    <div class="col-12 text-center py-5">
-                        <p class="text-muted">Belum ada promo aktif saat ini.</p>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-    </section>
 
     <!-- Footer -->
     <footer class="bg-dark text-white py-4 mt-auto">

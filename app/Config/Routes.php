@@ -31,6 +31,7 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
     $routes->group('admin', function($routes) {
         $routes->get('dashboard', 'Admin\Dashboard::index');
         $routes->post('dashboard/updateStatus/(:num)', 'Admin\Dashboard::updateStatus/$1');
+        $routes->post('dashboard/updatePromo/(:num)', 'Admin\Dashboard::updatePromo/$1');
 
         $routes->get('products', 'Admin\Product::index');
         $routes->post('products/create', 'Admin\Product::create');
