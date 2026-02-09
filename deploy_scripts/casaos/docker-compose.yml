@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ../../
+      dockerfile: deploy_scripts/casaos/Dockerfile
+    container_name: pos-app-php
+    volumes:
+      - ../../writable:/var/www/html/writable
+    restart: always
+    networks:
+      - pos-network
+
+  web:
+    image: nginx:alpine
+    container_name: pos-app-nginx
+    ports:
+      - "8085:80"
+    volumes:
+      - ../../public:/var/www/html/public
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      # Re-mount writable to ensure Nginx can't serve it directly if configured wrong, though protected by conf
+      - ../../writable:/var/www/html/writable 
+    depends_on:
+      - app
+    restart: always
+    networks:
+      - pos-network
+
+networks:
+  pos-network:
+    driver: bridge
