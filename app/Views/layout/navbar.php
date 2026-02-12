@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-corporate sticky-top">
     <div class="container-fluid">
         <a class="navbar-brand fw-bold" href="/">
-            <i class="fas fa-print me-2"></i>Wise Printing
+            <img src="/images/logo.svg" alt="Wise Printing" height="30" class="me-2">
         </a>
         <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon filter-invert"></span>
