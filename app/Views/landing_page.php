@@ -227,6 +227,7 @@
             border-bottom: 1px solid var(--border-color);
             color: var(--text-main);
             vertical-align: middle;
+            white-space: nowrap; /* Prevent wrapping for data columns */
         }
 
         .table-custom tr:last-child td {
@@ -240,6 +241,10 @@
         .table-custom td:first-child {
             font-weight: 600;
             color: var(--bs-blue);
+            white-space: normal; /* Allow text wrapping for the first column */
+            min-width: 180px; /* Ensure sufficient width */
+            max-width: 250px;
+            line-height: 1.4;
         }
 
         .note-row {
