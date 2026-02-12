@@ -48,6 +48,13 @@
                         </li>
                     <?php endif; ?>
 
+                    <!-- 7. Users (Admin Only) -->
+                    <?php if($session->get('role') == 'admin'): ?>
+                        <li class="nav-item">
+                            <a class="nav-link <?= uri_string() == 'admin/users' ? 'active' : '' ?>" href="/admin/users">Users</a>
+                        </li>
+                    <?php endif; ?>
+
                 <?php endif; ?>
             </ul>
             <ul class="navbar-nav">
