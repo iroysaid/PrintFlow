@@ -16,8 +16,25 @@ class Product extends BaseController
 
     public function index()
     {
+        $sort = $this->request->getGet('sort');
+        $productModel = $this->productModel;
+
+        if ($sort == 'name_asc') {
+            $productModel->orderBy('nama_barang', 'ASC');
+        } elseif ($sort == 'popular') {
+            // Join with transaction_details to count sales
+            $productModel->select('products.*, COUNT(transaction_details.id) as sales_count')
+                         ->join('transaction_details', 'transaction_details.product_id = products.id', 'left')
+                         ->groupBy('products.id')
+                         ->orderBy('sales_count', 'DESC');
+        } else {
+            // Default: Newest
+            $productModel->orderBy('products.id', 'DESC');
+        }
+
         $data = [
-            'products' => $this->productModel->orderBy('id', 'DESC')->findAll(),
+            'products' => $productModel->findAll(),
+            'currentSort' => $sort // Pass current sort to view for UI state
         ];
         return view('admin/products', $data);
     }

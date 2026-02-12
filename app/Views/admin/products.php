@@ -6,9 +6,21 @@
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="text-white">Inventory Management</h2>
-            <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addProductModal">
-                + New Product
-            </button>
+            <div class="d-flex gap-2">
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-sort me-1"></i> Sort By
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="?sort=newest"><i class="fas fa-clock me-2"></i>Newest</a></li>
+                        <li><a class="dropdown-item" href="?sort=name_asc"><i class="fas fa-sort-alpha-down me-2"></i>Name (A-Z)</a></li>
+                        <li><a class="dropdown-item" href="?sort=popular"><i class="fas fa-fire me-2"></i>Popular</a></li>
+                    </ul>
+                </div>
+                <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                    + New Product
+                </button>
+            </div>
         </div>
 
         <?php if(session()->getFlashdata('success')): ?>
@@ -92,6 +104,7 @@
                             <select name="jenis_harga" class="form-select">
                                 <option value="unit">Unit</option>
                                 <option value="meter">Meter</option>
+                                <option value="pack">Pack</option>
                             </select>
                         </div>
                         <div class="col-6">
@@ -144,6 +157,7 @@
                             <select id="edit_jenis" name="jenis_harga" class="form-select">
                                 <option value="unit">Unit</option>
                                 <option value="meter">Meter</option>
+                                <option value="pack">Pack</option>
                             </select>
                         </div>
                         <div class="col-6">
