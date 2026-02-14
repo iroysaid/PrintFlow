@@ -252,8 +252,13 @@
         <!-- Header -->
         <header class="invoice-header">
             <div class="brand">
-                <h1><i class="fas fa-print"></i> Wise Printing</h1>
-                <p>JL. MULAWARMAN NO.44 RT.48 MANGGAR BARU BALIKPAPAN TIMUR<br>WA: 0812-3456-7890</p>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <img src="/logo_wise_black.svg" alt="Wise Printing Logo" style="height: 80px; width: auto;">
+                    <div>
+                        <h1>Wise Printing</h1>
+                        <p style="margin-top: 5px; line-height: 1.4;">JL. MULAWARMAN NO.44 RT.48 MANGGAR BARU <br>BALIKPAPAN TIMUR<br>WA: 0812-3456-7890</p>
+                    </div>
+                </div>
             </div>
             <div class="invoice-title">
                 <h2>INVOICE</h2>

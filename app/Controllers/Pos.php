@@ -31,7 +31,13 @@ class Pos extends BaseController
     public function history()
     {
         $search = $this->request->getGet('search');
-        $tanggal = $this->request->getGet('tanggal');
+        // date filter
+        $start_date = $this->request->getGet('start_date');
+        $end_date = $this->request->getGet('end_date');
+
+        // Defaults
+        if(empty($start_date)) $start_date = date('Y-m-d');
+        if(empty($end_date)) $end_date = date('Y-m-d');
 
         $query = $this->transactionModel->orderBy('created_at', 'DESC');
 
@@ -43,16 +49,98 @@ class Pos extends BaseController
                 ->groupEnd();
         }
 
-        if (!empty($tanggal)) {
-            $query->where("DATE(tgl_masuk)", $tanggal);
-        }
+        // Apply Date Range
+        $query->where("DATE(tgl_masuk) >=", $start_date)
+              ->where("DATE(tgl_masuk) <=", $end_date);
 
         $transactions = $query->findAll(50);
 
         return view('pos/history', [
             'transactions' => $transactions,
             'search' => $search,
-            'tanggal' => $tanggal
+            'start_date' => $start_date,
+            'end_date' => $end_date
+        ]);
+    }
+
+    public function printReport()
+    {
+        $start_date = $this->request->getGet('start_date');
+        $end_date = $this->request->getGet('end_date');
+        
+        if(empty($start_date) || empty($end_date)) {
+            return "Please specify start and end dates";
+        }
+
+        // Fetch ALL matching transactions (no limit)
+        $transactions = $this->transactionModel
+            ->where("DATE(tgl_masuk) >=", $start_date)
+            ->where("DATE(tgl_masuk) <=", $end_date)
+            ->orderBy('tgl_masuk', 'ASC')
+            ->findAll();
+
+        // Calculate Totals and Fetch Items
+        $grandTotal = 0;
+        foreach($transactions as &$t) {
+            $grandTotal += $t['grand_total'];
+            // Fetch items for this transaction
+            $t['items'] = $this->transactionDetailModel
+                ->select('transaction_details.*, products.nama_barang, products.jenis_harga')
+                ->join('products', 'products.id = transaction_details.product_id', 'left')
+                ->where('transaction_id', $t['id'])
+                ->findAll();
+        }
+
+        return view('pos/report_print', [
+            'transactions' => $transactions,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'grand_total' => $grandTotal
+        ]);
+    }
+
+    public function exportExcel()
+    {
+        $start_date = $this->request->getGet('start_date');
+        $end_date = $this->request->getGet('end_date');
+        
+        if(empty($start_date) || empty($end_date)) {
+            return "Please specify start and end dates";
+        }
+
+        // Fetch ALL matching transactions (no limit)
+        $transactions = $this->transactionModel
+            ->where("DATE(tgl_masuk) >=", $start_date)
+            ->where("DATE(tgl_masuk) <=", $end_date)
+            ->orderBy('tgl_masuk', 'ASC')
+            ->findAll();
+
+        // Calculate Totals and Fetch Items
+        $grandTotal = 0;
+        foreach($transactions as &$t) {
+            $grandTotal += $t['grand_total'];
+            // Fetch items
+            $t['items'] = $this->transactionDetailModel
+                ->select('transaction_details.*, products.nama_barang')
+                ->join('products', 'products.id = transaction_details.product_id', 'left')
+                ->where('transaction_id', $t['id'])
+                ->findAll();
+        }
+
+        $filename = "Laporan_Penjualan_" . date('d-m-Y', strtotime($start_date)) . "_sd_" . date('d-m-Y', strtotime($end_date)) . ".xls";
+
+        // Set headers for Excel download
+        header("Content-Type: application/vnd.ms-excel");
+        header("Content-Disposition: attachment; filename=\"$filename\"");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
+        return view('pos/report_print', [
+            'transactions' => $transactions,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'grand_total' => $grandTotal,
+            'is_excel' => true
         ]);
     }
 

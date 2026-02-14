@@ -9,19 +9,50 @@
         <!-- Search & Filter -->
         <div class="glass-panel mb-4 p-4">
             <form action="" method="get" class="row g-3">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label class="text-white small mb-1">Search</label>
                     <input type="text" name="search" class="form-control bg-light border-0" placeholder="Invoice, Name, or Phone..." value="<?= esc($search) ?>">
                 </div>
                 <div class="col-md-3">
-                    <label class="text-white small mb-1">Tanggal</label>
-                    <input type="date" name="tanggal" class="form-control bg-light border-0" value="<?= esc($tanggal ?? '') ?>">
+                    <label class="text-white small mb-1">Start Date</label>
+                    <input type="date" name="start_date" class="form-control bg-light border-0" value="<?= esc($start_date ?? date('Y-m-d')) ?>">
                 </div>
-                <div class="col-md-2 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary w-100 fw-bold"><i class="fas fa-filter me-1"></i> Filter</button>
+                <div class="col-md-3">
+                    <label class="text-white small mb-1">End Date</label>
+                    <input type="date" name="end_date" class="form-control bg-light border-0" value="<?= esc($end_date ?? date('Y-m-d')) ?>">
+                </div>
+                <div class="col-md-3 d-flex align-items-end gap-2">
+                    <button type="submit" class="btn btn-primary fw-bold"><i class="fas fa-filter me-1"></i> Filter</button>
+                    <button type="button" onclick="printReport()" class="btn btn-success fw-bold"><i class="fas fa-print me-1"></i> Print</button>
                 </div>
             </form>
         </div>
+
+        <script>
+        function getDates() {
+            const startDate = document.querySelector('input[name="start_date"]').value;
+            const endDate = document.querySelector('input[name="end_date"]').value;
+            if(!startDate || !endDate) {
+                alert('Silahkan pilih tanggal awal dan akhir');
+                return null;
+            }
+            return { startDate, endDate };
+        }
+
+        function printReport() {
+            const dates = getDates();
+            if(dates) {
+                window.open(`/pos/printReport?start_date=${dates.startDate}&end_date=${dates.endDate}`, '_blank');
+            }
+        }
+
+        function exportExcel() {
+            const dates = getDates();
+            if(dates) {
+                window.location.href = `/pos/exportExcel?start_date=${dates.startDate}&end_date=${dates.endDate}`;
+            }
+        }
+        </script>
         
         <div class="glass-panel p-0">
             <div class="table-responsive">

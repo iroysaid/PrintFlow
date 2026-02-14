@@ -16,6 +16,8 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
     // Cashier Routes
     $routes->get('pos', 'Pos::index');
     $routes->get('pos/history', 'Pos::history');
+    $routes->get('pos/printReport', 'Pos::printReport');
+    $routes->get('pos/exportExcel', 'Pos::exportExcel');
     $routes->get('pos/searchProduct', 'Pos::searchProduct');
     $routes->get('pos/checkCustomer', 'Pos::checkCustomer');
     $routes->post('pos/saveTransaction', 'Pos::saveTransaction');
