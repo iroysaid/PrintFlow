@@ -8,7 +8,7 @@
 :: ========================================================
 
 set SERVER_IP=192.168.1.21
-set PORT=8080
+set PORT=4448
 
 echo Menghubungkan ke PrintFlow POS Server di %SERVER_IP%...
 
