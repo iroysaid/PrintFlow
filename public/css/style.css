@@ -15,6 +15,12 @@
     --theme-border: #dee2e6;
 }
 
+/* Fix Scroll issue on mobile when using calc(100vh) */
+.col-md-7.col-lg-8 {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 body {
     background-color: var(--theme-bg);
     color: var(--theme-text);
@@ -75,6 +81,7 @@ body {
     color: #000;
     font-weight: bold;
 }
+
 /* Animation Utilities */
 .hover-up {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -82,5 +89,5 @@ body {
 
 .hover-up:hover {
     transform: translateY(-5px);
-    box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175) !important;
 }

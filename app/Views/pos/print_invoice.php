@@ -245,7 +245,7 @@
         $backLink = ($source === 'history') ? '/pos/history' : '/pos';
         $backText = ($source === 'history') ? 'Back to History' : 'Back to POS';
         ?>
-        <a href="<?= $backLink ?>"><i class="fas fa-arrow-left"></i> <?= $backText ?></a>
+        <a href="<?= $backLink ?>"><i class="fas fa-arrow-left"></i> Kembali</a>
     </div>
 
     <div class="page">
@@ -261,7 +261,7 @@
                 </div>
             </div>
             <div class="invoice-title">
-                <h2>INVOICE</h2>
+                <h2>NOTA</h2>
                 <p>#<?= $transaction['no_invoice'] ?></p>
             </div>
         </header>
@@ -269,31 +269,31 @@
         <!-- Info -->
         <div class="info-grid">
             <div class="info-box">
-                <h3>Billed To:</h3>
+                <h3>Kepada:</h3>
                 <table>
                     <tr>
-                        <td>Name:</td>
+                        <td>Nama:</td>
                         <td><?= htmlspecialchars($transaction['customer_name']) ?></td>
                     </tr>
                     <tr>
-                        <td>Phone:</td>
+                        <td>Telp:</td>
                         <td><?= htmlspecialchars($transaction['customer_phone']) ?></td>
                     </tr>
                 </table>
             </div>
             <div class="info-box">
-                <h3>Order Details:</h3>
+                <h3>Detail Pesanan:</h3>
                 <table>
                     <tr>
-                        <td>Date:</td>
+                        <td>Tanggal:</td>
                         <td><?= date('d M Y, H:i', strtotime($transaction['tgl_masuk'])) ?></td>
                     </tr>
                     <tr>
-                        <td>Estimate:</td>
+                        <td>Estimasi:</td>
                         <td><?= date('d M Y', strtotime($transaction['tgl_selesai'])) ?></td>
                     </tr>
                     <tr>
-                        <td>Cashier:</td>
+                        <td>Kasir:</td>
                         <td>user_<?= $transaction['user_id'] ?></td> <!-- Can replace with name via Join if needed -->
                     </tr>
                 </table>
@@ -305,11 +305,11 @@
             <thead>
                 <tr>
                     <th style="width: 5%">#</th>
-                    <th style="width: 40%">Description</th>
-                    <th style="width: 15%" class="text-right">Price</th>
-                    <th style="width: 10%" class="text-right">Qty</th>
-                    <th style="width: 15%" class="text-right">Dims (m)</th>
-                    <th style="width: 15%" class="text-right">Amount</th>
+                    <th style="width: 40%">Deskripsi</th>
+                    <th style="width: 15%" class="text-right">Harga</th>
+                    <th style="width: 10%" class="text-right">Jml</th>
+                    <th style="width: 15%" class="text-right">Dim (m)</th>
+                    <th style="width: 15%" class="text-right">Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -319,10 +319,10 @@
                     <td>
                         <span class="item-name"><?= htmlspecialchars($item['nama_barang']) ?></span>
                         <?php if(!empty($item['nama_project'])): ?>
-                            <span class="item-meta" style="color: #2563eb; font-weight: 500;">Project: <?= htmlspecialchars($item['nama_project']) ?></span>
+                            <span class="item-meta" style="color: #2563eb; font-weight: 500;">Proyek: <?= htmlspecialchars($item['nama_project']) ?></span>
                         <?php endif; ?>
                         <?php if(!empty($item['catatan'])): ?>
-                            <span class="item-meta">Note: <?= htmlspecialchars($item['catatan']) ?></span>
+                            <span class="item-meta">Catatan: <?= htmlspecialchars($item['catatan']) ?></span>
                         <?php endif; ?>
                     </td>
                     <td style="text-align: right;"><?= number_format($item['harga_dasar'], 0, ',', '.') ?></td>
@@ -348,15 +348,15 @@
         <!-- Totals and Status -->
         <div style="display: flex; justify-content: space-between; align-items: flex-start;">
             <div style="padding-top: 20px;">
-                <h3 style="font-size: 14px; text-transform: uppercase; color: #64748b; margin-bottom: 10px;">Payment Status</h3>
+                <h3 style="font-size: 14px; text-transform: uppercase; color: #64748b; margin-bottom: 10px;">Status Pembayaran</h3>
                 <?php if($transaction['status_bayar'] == 'lunas'): ?>
-                    <span class="status-badge status-paid">PAID / LUNAS</span>
+                    <span class="status-badge status-paid">LUNAS</span>
                 <?php else: ?>
-                    <span class="status-badge status-unpaid">UNPAID / BELUM LUNAS</span>
+                    <span class="status-badge status-unpaid">BELUM LUNAS</span>
                 <?php endif; ?>
                 
                 <div style="margin-top: 20px; font-size: 13px; color: #64748b;">
-                    Payment Method: <strong style="color: #333; text-transform: uppercase;"><?= $transaction['metode_bayar'] ?></strong>
+                    Metode Bayar: <strong style="color: #333; text-transform: uppercase;"><?= $transaction['metode_bayar'] ?></strong>
                 </div>
             </div>
 
@@ -368,21 +368,21 @@
                     </tr>
                     <?php if($transaction['diskon_persen'] > 0 || $transaction['diskon'] > 0): ?>
                     <tr>
-                        <td class="label" style="color: #166534;">Discount (<?= $transaction['diskon_persen'] ?>%)</td>
+                        <td class="label" style="color: #166534;">Diskon (<?= $transaction['diskon_persen'] ?>%)</td>
                         <td style="color: #166534;">- Rp <?= number_format($transaction['diskon'], 0, ',', '.') ?></td>
                     </tr>
                     <?php endif; ?>
                     <tr>
-                        <td class="label">Grand Total</td>
+                        <td class="label">Total Akhir</td>
                         <td style="font-size: 20px; color: var(--primary);">Rp <?= number_format($transaction['grand_total'], 0, ',', '.') ?></td>
                     </tr>
                     <tr>
-                        <td class="label">Amount Paid</td>
+                        <td class="label">Bayar</td>
                         <td>Rp <?= number_format($transaction['nominal_bayar'], 0, ',', '.') ?></td>
                     </tr>
                     <?php if($transaction['sisa_bayar'] > 0): ?>
                     <tr>
-                        <td class="label" style="color: #991b1b; font-weight: bold;">Balance Due</td>
+                        <td class="label" style="color: #991b1b; font-weight: bold;">Sisa Tagihan</td>
                         <td style="color: #991b1b; font-weight: bold;">Rp <?= number_format($transaction['sisa_bayar'], 0, ',', '.') ?></td>
                     </tr>
                     <?php endif; ?>
@@ -393,18 +393,18 @@
         <!-- Footers -->
         <div class="footer">
             <div class="signature-box">
-                <p style="margin-bottom: 50px;">Customer,</p>
+                <p style="margin-bottom: 50px;">Penerima,</p>
                 <div class="signature-line"></div>
                 <div class="signature-name"><?= htmlspecialchars($transaction['customer_name']) ?></div>
             </div>
             
             <div style="text-align: center; width: 300px; color: #64748b; font-size: 12px; align-self: flex-end; margin-bottom: 20px;">
-                <p>Thank you for your business!</p>
+                <p>Terima kasih atas kepercayaan Anda!</p>
                 <p>Barang yang sudah dibeli tidak dapat ditukar/dikembalikan kecuali ada perjanjian.</p>
             </div>
 
             <div class="signature-box">
-                <p style="margin-bottom: 50px;">Authorized Sign,</p>
+                <p style="margin-bottom: 50px;">Hormat Kami,</p>
                 <div class="signature-line"></div>
                 <div class="signature-name">Wise Printing</div>
             </div>

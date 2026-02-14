@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 
 <div class="container py-4">
-    <h2 class="fw-bold mb-4">Dashboard</h2>
+    <h2 class="text-dark fw-bold mb-4"><i class="fas fa-tachometer-alt me-2 text-primary"></i>Dashboard</h2>
 
     <!-- Stats Cards -->
     <div class="row g-3 mb-4">
@@ -48,13 +48,13 @@
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
-                    <thead class="bg-light text-primary" style="--bs-table-color: var(--bs-primary);">
+                    <thead class="text-primary">
                         <tr>
-                            <th class="ps-3 text-primary">Invoice</th>
-                            <th class="text-primary">Customer</th>
-                            <th class="text-primary">Deadline</th>
-                            <th class="text-primary">Status</th>
-                            <th class="text-primary">Action</th>
+                            <th class="ps-3">Invoice</th>
+                            <th>Customer</th>
+                            <th>Deadline</th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,6 +80,7 @@
                             </td>
                             <td>
                                 <form action="/admin/dashboard/updateStatus/<?= $q['id'] ?>" method="post" class="d-inline">
+                                    <?= csrf_field() ?>
                                     <div class="btn-group btn-group-sm">
                                         <?php if($q['status_produksi'] == 'queue'): ?>
                                             <button name="status" value="design" class="btn btn-outline-primary">Start Design</button>

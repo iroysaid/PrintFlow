@@ -2,9 +2,10 @@
 
 <?= $this->section('content') ?>
 
-<div class="row">
+<div class="container py-4">
+    <div class="row">
     <div class="col-12">
-        <h2 class="text-white mb-4">Transaction History</h2>
+        <h2 class="text-dark fw-bold mb-4"><i class="fas fa-history me-2 text-primary"></i>Transaction History</h2>
 
         <!-- Search & Filter -->
         <style>
@@ -84,7 +85,7 @@
             const startDate = document.querySelector('input[name="start_date"]').value;
             const endDate = document.querySelector('input[name="end_date"]').value;
             if(!startDate || !endDate) {
-                alert('Silahkan pilih tanggal awal dan akhir');
+                alert('Please select start and end date');
                 return null;
             }
             return { startDate, endDate };
@@ -108,7 +109,7 @@
         <div class="glass-panel p-0">
             <div class="table-responsive">
                 <table class="table table-hover mb-0">
-                    <thead>
+                    <thead class="text-primary">
                         <tr>
                             <th class="ps-4">Invoice</th>
                             <th>Date</th>
@@ -122,7 +123,7 @@
                         <?php foreach($transactions as $t): ?>
                         <tr>
                             <td class="ps-4 fw-bold">
-                                <a href="/pos/printInvoice/<?= $t['id'] ?>?from=history" target="_blank" class="text-dark text-decoration-underline" title="Lihat Nota">
+                                <a href="/pos/printInvoice/<?= $t['id'] ?>?from=history" target="_blank" class="text-dark text-decoration-underline" title="View Invoice">
                                     <?= $t['no_invoice'] ?>
                                 </a>
                             </td>
@@ -133,21 +134,21 @@
                             </td>
                             <td>
                                 <?php if($t['status_bayar'] == 'lunas'): ?>
-                                    <span class="badge bg-success">Lunas</span>
+                                    <span class="badge bg-success">Paid</span>
                                 <?php else: ?>
-                                    <span class="badge bg-warning text-dark">Belum Lunas</span>
+                                    <span class="badge bg-warning text-dark">Unpaid</span>
                                 <?php endif; ?>
                             </td>
                             <td class="text-primary fw-bold">Rp <?= number_format($t['grand_total'], 0, ',', '.') ?></td>
                             <td class="text-end pe-4">
                                 <div class="btn-group">
-                                    <a href="/pos/printInvoice/<?= $t['id'] ?>?from=history" target="_blank" class="btn btn-sm btn-outline-primary" title="Lihat Nota">
+                                    <a href="/pos/printInvoice/<?= $t['id'] ?>?from=history" target="_blank" class="btn btn-sm btn-outline-primary" title="View Invoice">
                                         <i class="fas fa-file-invoice"></i>
                                     </a>
                                     <a href="/pos/editTransaction/<?= $t['id'] ?>" class="btn btn-sm btn-outline-warning" title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <button onclick="confirmDelete(<?= $t['id'] ?>)" class="btn btn-sm btn-outline-danger" title="Hapus">
+                                    <button onclick="confirmDelete(<?= $t['id'] ?>)" class="btn btn-sm btn-outline-danger" title="Delete">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
@@ -168,7 +169,7 @@
 
 <script>
     function confirmDelete(id) {
-        if(confirm('Apakah Anda yakin ingin menghapus transaksi ini? Data yang dihapus tidak dapat dikembalikan.')) {
+        if(confirm('Are you sure you want to delete this transaction? This action cannot be undone.')) {
             window.location.href = '/pos/deleteTransaction/' + id;
         }
     }

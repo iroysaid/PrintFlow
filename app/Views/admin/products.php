@@ -2,10 +2,11 @@
 
 <?= $this->section('content') ?>
 
-<div class="row">
+<div class="container py-4">
+    <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="text-white">Inventory Management</h2>
+            <h2 class="text-dark fw-bold"><i class="fas fa-boxes me-2 text-primary"></i>Inventory Management</h2>
             <div class="d-flex gap-2">
                 <div class="dropdown">
                     <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
@@ -32,7 +33,7 @@
         <div class="glass-panel p-0">
             <div class="table-responsive">
                 <table class="table table-hover mb-0">
-                    <thead>
+                    <thead class="text-primary">
                         <tr>
                             <th class="ps-4">Code</th>
                             <th>Image</th> <!-- New Column -->
@@ -72,6 +73,7 @@
                 </table>
             </div>
         </div>
+    </div>
     </div>
 </div>
 

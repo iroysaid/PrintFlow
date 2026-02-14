@@ -2,10 +2,11 @@
 
 <?= $this->section('content') ?>
 
-<div class="row">
+<div class="container py-4">
+    <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="text-white">User Management</h2>
+            <h2 class="text-dark fw-bold"><i class="fas fa-users-cog me-2 text-primary"></i>User Management</h2>
             <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addUserModal">
                 + New User
             </button>
@@ -26,7 +27,7 @@
         <div class="glass-panel p-0">
             <div class="table-responsive">
                 <table class="table table-hover mb-0">
-                    <thead>
+                    <thead class="text-primary">
                         <tr>
                             <th class="ps-4">ID</th>
                             <th>Username</th>
@@ -60,6 +61,7 @@
                 </table>
             </div>
         </div>
+    </div>
     </div>
 </div>
 

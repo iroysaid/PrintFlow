@@ -2,9 +2,10 @@
 
 <?= $this->section('content') ?>
 
-<div class="row g-0 h-100" x-data="posApp()">
+<div class="row g-0 h-100" x-data="posApp()" @resize.window="if(window.innerWidth >= 768) showMobileCart = false">
+
     <!-- LEFT: Product Catalog -->
-    <div class="col-md-7 col-lg-8 p-3 bg-light border-end" style="height: calc(100vh - 60px); overflow-y: auto;">
+    <div class="col-md-8 p-3 bg-light border-end d-flex flex-column" :class="showMobileCart ? 'd-none d-md-flex' : 'd-flex'" style="height: calc(100vh - 60px);">
         
         <!-- Search Bar -->
         <div class="mb-4 d-flex gap-2">
@@ -34,10 +35,46 @@
             </template>
         </div>
         
+
+        
+    </div>
+
+    <!-- Floating Mobile Cart Button -->
+    <div class="fixed-bottom p-3 d-md-none" x-show="cart.length > 0 && !showMobileCart" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 translate-y-full"
+         x-transition:enter-end="opacity-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 translate-y-0"
+         x-transition:leave-end="opacity-0 translate-y-full">
+        <button @click="showMobileCart = true" class="btn btn-primary w-100 rounded-pill shadow-lg py-3 d-flex justify-content-between align-items-center px-4 border-0" style="background: linear-gradient(to right, #0d6efd, #0043a8);">
+            <div class="fw-bold d-flex align-items-center">
+                <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 24px; height: 24px;">
+                    <span x-text="cart.reduce((a, b) => a + b.qty, 0)" style="font-size: 12px; font-weight: bold;"></span>
+                </div>
+                <span>Item</span>
+            </div>
+            <div class="fw-bold d-flex align-items-center">
+                <span class="me-2">Continue Order</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="fw-bold fs-6" x-text="formatRupiah(grandTotal)"></div>
+        </button>
     </div>
 
     <!-- RIGHT: Cart & Checkout -->
-    <div class="col-md-5 col-lg-4 bg-white d-flex flex-column shadow-lg" style="height: calc(100vh - 60px);">
+    <div class="col-md-4 bg-white d-flex flex-column shadow-lg transition-all" 
+         :class="showMobileCart ? 'd-flex fixed-top h-100 w-100 z-3' : 'd-none d-md-flex'" 
+         style="height: calc(100vh - 60px);"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 translate-y-full"
+         x-transition:enter-end="opacity-100 translate-y-0">
+         
+         <!-- Mobile Back Button -->
+         <div class="d-md-none bg-primary text-white p-3 d-flex align-items-center gap-3 border-bottom shadow-sm" @click="showMobileCart = false" style="cursor: pointer;">
+             <i class="fas fa-arrow-left fa-lg"></i>
+             <h6 class="m-0 fw-bold">Back (Add Items)</h6>
+         </div>
         
         <!-- Customer Info -->
         <div class="p-3 bg-white border-bottom position-relative">
@@ -140,6 +177,16 @@
             <div x-show="cart.length === 0" class="text-center py-5 text-muted">
                 <i class="fas fa-shopping-basket fa-3x mb-3 text-secondary opacity-25"></i>
                 <p>Cart is empty</p>
+                <button @click="showMobileCart = false" class="btn btn-outline-primary btn-sm rounded-pill px-4 mt-2 d-md-none">
+                    <i class="fas fa-plus me-1"></i> Start Order
+                </button>
+            </div>
+
+            <!-- Add More Button (Mobile Only) -->
+            <div x-show="cart.length > 0" class="d-grid gap-2 mb-3 d-md-none">
+                <button @click="showMobileCart = false" class="btn btn-outline-primary fw-bold py-2 border-2 rounded-3">
+                    <i class="fas fa-plus me-2"></i> ADD MORE ITEMS
+                </button>
             </div>
         </div>
 
@@ -179,7 +226,7 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-end mb-3" x-show="payment.diskon_persen > 0">
-                             <span class="text-success small" x-text="`Potongan: -${formatRupiah(calculateDiscountAmount())}`"></span>
+                             <span class="text-success small" x-text="`Discount: -${formatRupiah(calculateDiscountAmount())}`"></span>
                         </div>
 
                         <!-- Ribbon Style Total -->
@@ -283,6 +330,7 @@ function posApp() {
         },
         customerList: [],
         showCustomerDropdown: false,
+        showMobileCart: false, // Mobile State
         payment: {
             amount_paid: 0,
             diskon_persen: 0,
@@ -420,7 +468,7 @@ function posApp() {
             this.processing = true;
             
             if (this.customer.no_hp.length < 10 || this.customer.no_hp.length > 14) {
-                alert('Nomor HP harus antara 10 - 14 digit!');
+                alert('Phone number must be between 10 - 14 digits!');
                 this.processing = false;
                 return;
             }

@@ -215,13 +215,13 @@
                     
                     <?php if(!empty($allNotes)): ?>
                         <div class="finishing-highlight">
-                            <span class="finishing-label"><i class="fas fa-sticky-note me-1"></i>Catatan</span>
+                            <span class="finishing-label"><i class="fas fa-sticky-note me-1"></i>Notes</span>
                             <?= nl2br(esc($allNotes)) ?>
                         </div>
                     <?php else: ?>
                         <!-- Fallback if no specific finishing note -->
                         <div class="alert alert-light text-center text-muted small py-2 mb-3">
-                            <em>Tidak ada catatan</em>
+                            <em>No notes</em>
                         </div>
                     <?php endif; ?>
 
