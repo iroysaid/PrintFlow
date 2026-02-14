@@ -39,16 +39,19 @@
                 size: A4;
                 margin: 10mm;
             }
-            body {
+            body { 
                 background: white;
                 margin: 0;
                 padding: 0;
-                font-size: 10pt !important;
-                line-height: 1.2;
+                /* Force Desktop Width */
+                width: 210mm; 
+                max-width: 210mm;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
             .page {
-                width: 100%;
-                max-width: none;
+                width: 100% !important;
+                max-width: none !important;
                 margin: 0;
                 padding: 0;
                 box-shadow: none;
@@ -248,35 +251,134 @@
             font-weight: bold;
         }
 
-        /* Print Button */
+        /* Print Button / Toolbar - Enhanced */
         .no-print {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: #333;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            padding: 10px 15px;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .no-print span.label {
+            font-weight: 700;
+            color: #333;
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            padding-left: 5px;
         }
         .no-print a {
-            color: #fff;
             text-decoration: none;
-            margin-left: 15px;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 24px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .no-print a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .no-print a:active {
+            transform: translateY(0);
+        }
+        
+        .btn-print { background: linear-gradient(135deg, #0d6efd, #0a58ca); }
+        .btn-pdf { background: linear-gradient(135deg, #dc3545, #b02a37); }
+        .btn-back { background: linear-gradient(135deg, #6c757d, #495057); }
+
+        /* Mobile specific styles */
+        @media screen and (max-width: 768px) {
+            .no-print {
+                top: auto;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%; /* Floating bottom bar */
+                max-width: 400px;
+                justify-content: space-between;
+                right: auto;
+                background: rgba(255, 255, 255, 0.95);
+                padding: 12px;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+            }
+            .no-print span.label {
+                display: none; /* Hide label on mobile */
+            }
+            .no-print a {
+                padding: 10px 0;
+                font-size: 12px;
+                flex: 1;
+                justify-content: center;
+                margin: 0 4px;
+                flex-direction: column; /* Stack icon and text */
+                gap: 4px;
+                border-radius: 12px;
+            }
+            .no-print a i {
+                font-size: 16px;
+                margin-bottom: 2px;
+            }
         }
     </style>
 </head>
 <body onload="window.print()">
 
     <div class="no-print">
-        <span><i class="fas fa-print"></i> Print Mode</span>
-        <a href="<?= isset($_GET['from']) && $_GET['from'] == 'history' ? '/pos/history' : '/pos' ?>">
-            <i class="fas fa-arrow-left"></i> Kembali
+        <span class="label"><i class="fas fa-print"></i> Mode Preview</span>
+        
+        <a href="javascript:window.print()" class="btn-print">
+            <i class="fas fa-print"></i> <span>Print</span>
+        </a>
+        
+        <a href="javascript:savePDF()" class="btn-pdf">
+            <i class="fas fa-file-pdf"></i> <span>Save PDF</span>
+        </a>
+        
+        <a href="<?= isset($_GET['from']) && $_GET['from'] == 'pos' ? '/pos' : (isset($_GET['from']) && $_GET['from'] == 'history' ? '/pos/history' : '/pos') ?>" class="btn-back">
+            <i class="fas fa-arrow-left"></i> <span>Kembali</span>
         </a>
     </div>
+
+    <!-- HTML2PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        function savePDF() {
+            const element = document.body;
+            const opt = {
+                margin: 0,
+                filename: 'Invoice_<?= $transaction['no_invoice'] ?>.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Hide buttons before generating
+            const btnDiv = document.querySelector('.no-print');
+            btnDiv.style.display = 'none';
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Show buttons again
+                btnDiv.style.display = 'block';
+            });
+        }
+    </script>
 
     <div class="page">
         <!-- Header -->

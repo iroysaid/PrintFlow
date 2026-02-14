@@ -5,7 +5,7 @@
 <div class="row g-0 h-100" x-data="posApp()" @resize.window="if(window.innerWidth >= 768) showMobileCart = false">
 
     <!-- LEFT: Product Catalog -->
-    <div class="col-md-8 p-3 bg-light border-end d-flex flex-column" :class="showMobileCart ? 'd-none d-md-flex' : 'd-flex'" style="height: calc(100vh - 60px);">
+    <div class="col-md-8 p-3 bg-light border-end d-flex flex-column overflow-y-auto" :class="showMobileCart ? 'd-none d-md-flex' : 'd-flex'" style="height: calc(100vh - 60px);">
         
         <!-- Search Bar -->
         <div class="mb-4 d-flex gap-2">
@@ -35,8 +35,8 @@
             </template>
         </div>
         
-
-        
+        <!-- Spacer for Mobile Floating Button -->
+        <div class="d-md-none" style="height: 100px;" x-show="cart.length > 0"></div>
     </div>
 
     <!-- Floating Mobile Cart Button -->
@@ -511,7 +511,12 @@ function posApp() {
                     bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
                     
                     // Open Invoice
-                    window.open(`/pos/printInvoice/${data.transaction_id}`, '_blank');
+                    // Open Invoice - Redirect on Mobile, New Tab on Desktop
+                    if (window.innerWidth < 768) {
+                        window.location.href = `/pos/printInvoice/${data.transaction_id}?from=pos`;
+                    } else {
+                        window.open(`/pos/printInvoice/${data.transaction_id}`, '_blank');
+                    }
                 } else {
                     alert('Transaction Failed: ' + data.message);
                 }

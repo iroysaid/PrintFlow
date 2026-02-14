@@ -94,37 +94,111 @@
         }
 
         @media print {
+            @page {
+                size: A4;
+                margin: 20mm;
+            }
             body { 
                 -webkit-print-color-adjust: exact; 
-                print-color-adjust: exact; /* Standard property */
+                print-color-adjust: exact; 
                 padding: 0;
+                margin: 0;
+                /* Force Desktop Width */
+                width: 210mm; 
+                max-width: 210mm;
+            }
+            .header, .meta, .report-table, .summary, .footer {
+                width: 100% !important;
             }
             thead { display: table-header-group; }
             tfoot { display: table-footer-group; }
             .no-print { display: none !important; }
         }
 
-        /* Floating Controls Style */
+        /* Print Button / Toolbar - Enhanced */
         .no-print {
             position: fixed;
             top: 20px;
             right: 20px;
-            z-index: 1000;
-            background: #1e293b;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            padding: 10px 15px;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .no-print span.label {
+            font-weight: 700;
+            color: #333;
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            padding-left: 5px;
         }
         .no-print a {
-            color: white;
             text-decoration: none;
-            margin: 0 10px;
-            font-weight: 500;
-            font-family: sans-serif;
-            font-size: 14px;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 24px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         .no-print a:hover {
-            text-decoration: underline;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .no-print a:active {
+            transform: translateY(0);
+        }
+        
+        .btn-print { background: linear-gradient(135deg, #0d6efd, #0a58ca); }
+        .btn-pdf { background: linear-gradient(135deg, #dc3545, #b02a37); }
+        .btn-back { background: linear-gradient(135deg, #6c757d, #495057); }
+
+        /* Mobile specific styles */
+        @media screen and (max-width: 768px) {
+            .no-print {
+                top: auto;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%; /* Floating bottom bar */
+                max-width: 400px;
+                justify-content: space-between;
+                right: auto;
+                background: rgba(255, 255, 255, 0.95);
+                padding: 12px;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+            }
+            .no-print span.label {
+                display: none; /* Hide label on mobile */
+            }
+            .no-print a {
+                padding: 10px 0;
+                font-size: 12px;
+                flex: 1;
+                justify-content: center;
+                margin: 0 4px;
+                flex-direction: column; /* Stack icon and text */
+                gap: 4px;
+                border-radius: 12px;
+            }
+            .no-print a i {
+                font-size: 16px;
+                margin-bottom: 2px;
+            }
         }
     </style>
 </head>
@@ -135,9 +209,19 @@
     <!-- Floating Print Controls -->
     <?php // if(!isset($is_excel)): Check already performed above ?>
     <div class="no-print">
-        <a href="javascript:window.print()"><i class="fas fa-print"></i> Print</a>
-        <a href="javascript:savePDF()"><i class="fas fa-file-pdf"></i> Simpan PDF</a>
-        <a href="/pos/history"><i class="fas fa-arrow-left"></i> Back to History</a>
+        <span class="label"><i class="fas fa-print"></i> Laporan</span>
+        
+        <a href="javascript:window.print()" class="btn-print">
+            <i class="fas fa-print"></i> <span>Print</span>
+        </a>
+        
+        <a href="javascript:savePDF()" class="btn-pdf">
+            <i class="fas fa-file-pdf"></i> <span>Save PDF</span>
+        </a>
+        
+        <a href="/pos/history" class="btn-back">
+            <i class="fas fa-arrow-left"></i> <span>Kembali</span>
+        </a>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>

@@ -94,7 +94,12 @@
         function printReport() {
             const dates = getDates();
             if(dates) {
-                window.open(`/pos/printReport?start_date=${dates.startDate}&end_date=${dates.endDate}`, '_blank');
+                // Mobile Check
+                if(window.innerWidth < 768) {
+                    window.location.href = `/pos/printReport?start_date=${dates.startDate}&end_date=${dates.endDate}&from=history`;
+                } else {
+                    window.open(`/pos/printReport?start_date=${dates.startDate}&end_date=${dates.endDate}`, '_blank');
+                }
             }
         }
 
