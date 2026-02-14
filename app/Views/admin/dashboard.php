@@ -2,7 +2,7 @@
 
 <?= $this->section('content') ?>
 
-<div class="container py-4">
+<div class="container-fluid px-4 py-4">
     <h2 class="text-dark fw-bold mb-4"><i class="fas fa-tachometer-alt me-2 text-primary"></i>Dashboard</h2>
 
     <!-- Stats Cards -->

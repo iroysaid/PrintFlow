@@ -2,7 +2,7 @@
 
 <?= $this->section('content') ?>
 
-<div class="container py-4">
+<div class="container-fluid px-4 py-4">
     <div class="row">
     <div class="col-12">
         <h2 class="text-dark fw-bold mb-4"><i class="fas fa-history me-2 text-primary"></i>Transaction History</h2>

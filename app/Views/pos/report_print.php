@@ -68,14 +68,16 @@
             text-align: left;
         }
 
+        .report-table td.text-center, .text-center { text-align: center !important; }
+        .report-table td.text-right, .text-right { text-align: right !important; }
+
         .report-table th {
             background-color: #f0f0f0;
             font-weight: bold;
             text-align: center;
         }
 
-        .text-right { text-align: right; }
-        .text-center { text-align: center; }
+
 
         .summary {
             text-align: right;
@@ -184,7 +186,7 @@
     <table class="report-table">
         <thead>
             <tr>
-            <th style="width: 5%;">#</th>
+                <th style="width: 5%;">No</th>
                 <th style="width: 15%;">Tanggal / Invoice</th>
                 <th style="width: 20%;">Pelanggan</th>
                 <th style="width: 35%;">Rincian Produk</th>

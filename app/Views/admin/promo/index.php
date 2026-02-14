@@ -2,7 +2,7 @@
 
 <?= $this->section('content') ?>
 
-<div class="container py-4">
+<div class="container-fluid px-4 py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-dark fw-bold mb-0"><i class="fas fa-bullhorn me-2 text-primary"></i>Manage Promos (Home Page)</h2>
     </div>

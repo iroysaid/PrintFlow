@@ -40,7 +40,7 @@
     </div>
 
     <!-- Floating Mobile Cart Button -->
-    <div class="fixed-bottom p-3 d-md-none" x-show="cart.length > 0 && !showMobileCart" 
+    <div class="fixed-bottom p-3 d-md-none" style="z-index: 1050;" x-show="cart.length > 0 && !showMobileCart" 
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0 translate-y-full"
          x-transition:enter-end="opacity-100 translate-y-0"
