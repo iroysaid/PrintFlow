@@ -7,7 +7,7 @@
 
     <!-- Stats Cards -->
     <div class="row g-3 mb-4">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card h-100 border-primary border-start-4 shadow-sm">
                 <div class="card-body">
                     <small class="text-secondary fw-bold text-uppercase">Income Today</small>
@@ -15,7 +15,15 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
+            <div class="card h-100 border-info border-start-4 shadow-sm">
+                <div class="card-body">
+                    <small class="text-secondary fw-bold text-uppercase">Income This Month</small>
+                    <div class="fs-3 fw-bold mt-2">Rp <?= number_format($incomeMonth, 0, ',', '.') ?></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
             <div class="card h-100 border-success border-start-4 shadow-sm">
                 <div class="card-body">
                     <small class="text-secondary fw-bold text-uppercase">Orders Today</small>
@@ -23,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card h-100 border-warning border-start-4 shadow-sm">
                 <div class="card-body">
                     <small class="text-secondary fw-bold text-uppercase">In Production</small>

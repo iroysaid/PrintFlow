@@ -217,6 +217,7 @@
                                     (<?= $item['panjang'] ?>m x <?= $item['lebar'] ?>m)
                                 <?php endif; ?>
                                 - <?= $item['qty'] ?> pcs
+                                - Rp <?= number_format($item['subtotal'], 0, ',', '.') ?>
                             </li>
                         <?php endforeach; ?>
                         </ul>

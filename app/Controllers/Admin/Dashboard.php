@@ -26,6 +26,11 @@ class Dashboard extends BaseController
                             ->selectSum('nominal_bayar')
                             ->first()['nominal_bayar'] ?? 0;
         
+        $incomeMonth = $this->transactionModel
+                            ->where('created_at >=', date('Y-m-01 00:00:00'))
+                            ->selectSum('nominal_bayar')
+                            ->first()['nominal_bayar'] ?? 0;
+        
         $ordersToday = $this->transactionModel
                             ->where('created_at >=', $today . ' 00:00:00')
                             ->countAllResults();
@@ -39,6 +44,8 @@ class Dashboard extends BaseController
         
         return view('admin/dashboard', [
             'incomeToday' => $incomeToday,
+            'incomeMonth' => $incomeMonth,
+            'ordersToday' => $ordersToday,
             'ordersToday' => $ordersToday,
             'onProgress'  => $onProgress,
             'queue'       => $queue

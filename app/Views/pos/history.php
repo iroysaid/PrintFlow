@@ -7,21 +7,29 @@
         <h2 class="text-white mb-4">Transaction History</h2>
 
         <!-- Search & Filter -->
+        <style>
+            .start-date-input::-webkit-calendar-picker-indicator {
+                filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(86deg) brightness(118%) contrast(119%);
+            }
+            .end-date-input::-webkit-calendar-picker-indicator {
+                filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+            }
+        </style>
         <div class="glass-panel mb-4 p-4">
-            <form action="" method="get" class="row g-3">
+            <form action="" method="get" class="row g-3 justify-content-center text-center" id="filterForm">
                 <div class="col-md-3">
-                    <label class="text-white small mb-1">Search</label>
-                    <input type="text" name="search" class="form-control bg-light border-0" placeholder="Invoice, Name, or Phone..." value="<?= esc($search) ?>">
+                    <label class="text-white small mb-1 d-block">Search</label>
+                    <input type="text" name="search" class="form-control bg-light border-0 text-center" placeholder="Invoice, Name, or Phone..." value="<?= esc($search) ?>" id="searchInput">
                 </div>
                 <div class="col-md-3">
-                    <label class="text-white small mb-1">Start Date</label>
-                    <input type="date" name="start_date" class="form-control bg-light border-0" value="<?= esc($start_date ?? date('Y-m-d')) ?>">
+                    <label class="text-white small mb-1 d-block">Start Date</label>
+                    <input type="date" name="start_date" class="form-control bg-light border-0 text-center start-date-input" value="<?= esc($start_date ?? date('Y-m-d')) ?>" id="startDateInput">
                 </div>
                 <div class="col-md-3">
-                    <label class="text-white small mb-1">End Date</label>
-                    <input type="date" name="end_date" class="form-control bg-light border-0" value="<?= esc($end_date ?? date('Y-m-d')) ?>">
+                    <label class="text-white small mb-1 d-block">End Date</label>
+                    <input type="date" name="end_date" class="form-control bg-light border-0 text-center end-date-input" value="<?= esc($end_date ?? date('Y-m-d')) ?>" id="endDateInput">
                 </div>
-                <div class="col-md-3 d-flex align-items-end gap-2">
+                <div class="col-md-3 d-flex align-items-end justify-content-center gap-2">
                     <button type="submit" class="btn btn-primary fw-bold"><i class="fas fa-filter me-1"></i> Filter</button>
                     <button type="button" onclick="printReport()" class="btn btn-success fw-bold"><i class="fas fa-print me-1"></i> Print</button>
                 </div>
@@ -29,6 +37,49 @@
         </div>
 
         <script>
+        // Auto-filter script
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('filterForm');
+            const inputs = form.querySelectorAll('input');
+            let debounceTimer;
+
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    clearTimeout(debounceTimer);
+                    debounceTimer = setTimeout(() => {
+                        fetchResults();
+                    }, 500); // Debounce 500ms to allow typing
+                });
+
+                // Also trigger immediately on date change/selection if 'input' doesn't catch it generally
+                if(input.type === 'date') {
+                    input.addEventListener('change', function() {
+                        fetchResults();
+                    });
+                }
+            });
+
+            function fetchResults() {
+                const formData = new FormData(form);
+                const params = new URLSearchParams(formData);
+                const url = window.location.pathname + '?' + params.toString();
+
+                // Update URL without reloading
+                window.history.pushState({}, '', url);
+
+                // Fetch new table data
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const newTableBody = doc.querySelector('tbody').innerHTML;
+                        document.querySelector('tbody').innerHTML = newTableBody;
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+            }
+        });
+
         function getDates() {
             const startDate = document.querySelector('input[name="start_date"]').value;
             const endDate = document.querySelector('input[name="end_date"]').value;
