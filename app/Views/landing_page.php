@@ -25,7 +25,7 @@
     <!-- Transparent Navbar for Landing -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm fixed-top">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#">
+            <a class="navbar-brand fw-bold" href="/">
                 <img src="/images/logo.svg" alt="Wise Printing" height="40" class="me-2">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLanding">
@@ -446,8 +446,9 @@
             <h4 class="fw-bold mb-3">Wise Printing Digital Printing</h4>
             <p class="opacity-75 mb-4">Solusi cetak cepat, murah, dan berkualitas.</p>
             <div class="d-flex justify-content-center gap-3 mb-4">
-                <a href="#" class="text-white"><i class="fab fa-facebook fa-lg"></i></a>
-                <a href="#" class="text-white"><i class="fab fa-instagram fa-lg"></i></a>
+                <!-- Social Media Links (Optional) -->
+                <!-- <a href="#" class="text-white"><i class="fab fa-facebook fa-lg"></i></a> -->
+                <!-- <a href="#" class="text-white"><i class="fab fa-instagram fa-lg"></i></a> -->
                 <a href="https://wa.me/6281253714657" class="text-white" target="_blank"><i class="fab fa-whatsapp fa-lg"></i></a>
             </div>
             <small class="opacity-50">&copy; <?= date('Y') ?> Wise Printing. Version 1.01 | Developed by iroysaid</small>

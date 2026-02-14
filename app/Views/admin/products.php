@@ -50,7 +50,7 @@
                             <td class="ps-4 text-muted"><?= esc($p['kode_barang']) ?></td>
                             <td>
                                 <?php if($p['gambar']): ?>
-                                    <img src="/uploads/products/<?= esc($p['gambar']) ?>" alt="Img" class="rounded" style="width: 40px; height: 40px; object-fit: cover;">
+                                    <img src="/uploads/products/<?= esc($p['gambar']) ?>" alt="Img" class="rounded" style="width: 40px; height: 40px; object-fit: cover;" loading="lazy">
                                 <?php else: ?>
                                     <div class="bg-light rounded d-flex align-items-center justify-content-center text-muted small" style="width: 40px; height: 40px;">No</div>
                                 <?php endif; ?>
@@ -91,6 +91,7 @@
                     <div class="mb-3">
                         <label>Product Image</label>
                         <input type="file" name="gambar" class="form-control" accept="image/*">
+                        <small class="text-muted d-block mt-1">Rekomendasi: JPG/PNG, Ukuran persegi (cth: 800x800px), Maks 800KB</small>
                     </div>
                     <div class="mb-3">
                         <label>Code</label>
@@ -139,11 +140,12 @@
                 <?= csrf_field() ?>
                 <div class="modal-body">
                     <div class="text-center mb-3">
-                        <img id="edit_preview" src="" class="img-thumbnail" style="max-height: 150px; display: none;">
+                        <img id="edit_preview" src="" class="img-thumbnail" style="max-height: 150px; display: none;" loading="lazy">
                     </div>
                     <div class="mb-3">
                         <label>Change Image</label>
                         <input type="file" name="gambar" class="form-control" accept="image/*">
+                        <small class="text-muted d-block mt-1">Rekomendasi: JPG/PNG, Ukuran persegi (cth: 800x800px), Maks 800KB</small>
                     </div>
                     <div class="mb-3">
                         <label>Code</label>

@@ -74,6 +74,7 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form action="/admin/users/create" method="post">
+                <?= csrf_field() ?>
                 <div class="modal-body p-4 bg-light">
                     <div class="mb-3">
                         <label class="form-label fw-bold text-secondary text-uppercase small">Username</label>
@@ -123,6 +124,7 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form id="editForm" method="post">
+                <?= csrf_field() ?>
                 <div class="modal-body p-4 bg-light">
                     <div class="mb-3">
                         <label class="form-label fw-bold text-secondary text-uppercase small">Username</label>

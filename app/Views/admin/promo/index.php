@@ -24,7 +24,7 @@
                                     <!-- Image Preview (3:4 Portrait) -->
                                     <div class="ratio mb-3 rounded overflow-hidden position-relative group-hover bg-secondary" style="--bs-aspect-ratio: 133.33%;">
                                         <?php if($promo['image']): ?>
-                                            <img src="/uploads/content/<?= $promo['image'] ?>" class="w-100 h-100 object-fit-cover" id="preview_<?= $promo['id'] ?>">
+                                            <img src="/uploads/content/<?= $promo['image'] ?>" class="w-100 h-100 object-fit-cover" id="preview_<?= $promo['id'] ?>" loading="lazy">
                                         <?php else: ?>
                                             <div class="d-flex align-items-center justify-content-center w-100 h-100 text-white">
                                                 <i class="fas fa-image fa-2x"></i>

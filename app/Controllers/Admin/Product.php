@@ -41,6 +41,21 @@ class Product extends BaseController
 
     public function create()
     {
+        $validationRule = [
+            'gambar' => [
+                'label' => 'Image File',
+                'rules' => 'uploaded[gambar]|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]|max_size[gambar,800]',
+            ],
+            'kode_barang' => 'required|is_unique[products.kode_barang]',
+            'nama_barang' => 'required',
+            'harga_dasar' => 'required|numeric',
+            'stok'        => 'required|integer'
+        ];
+
+        if (! $this->validate($validationRule)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
         $file = $this->request->getFile('gambar');
         $fileName = null;
 
@@ -64,6 +79,21 @@ class Product extends BaseController
 
     public function update($id)
     {
+        $validationRule = [
+            'gambar' => [
+                'label' => 'Image File',
+                'rules' => 'is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]|max_size[gambar,800]',
+            ],
+            'kode_barang' => "required|is_unique[products.kode_barang,id,$id]",
+            'nama_barang' => 'required',
+            'harga_dasar' => 'required|numeric',
+            'stok'        => 'required|integer'
+        ];
+
+        if (! $this->validate($validationRule)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
         $product = $this->productModel->find($id);
         $file = $this->request->getFile('gambar');
         $fileName = $product['gambar'];

@@ -72,23 +72,45 @@ class Pos extends BaseController
             return "Please specify start and end dates";
         }
 
-        // Fetch ALL matching transactions (no limit)
+        // 1. Fetch Transactions (Read-Only, Array)
         $transactions = $this->transactionModel
+            ->asArray()
             ->where("DATE(tgl_masuk) >=", $start_date)
             ->where("DATE(tgl_masuk) <=", $end_date)
             ->orderBy('tgl_masuk', 'ASC')
             ->findAll();
 
-        // Calculate Totals and Fetch Items
+        if (empty($transactions)) {
+            return view('pos/report_print', [
+                'transactions' => [],
+                'start_date' => $start_date,
+                'end_date' => $end_date,
+                'grand_total' => 0
+            ]);
+        }
+
+        // 2. Extract Transaction IDs
+        $transactionIds = array_column($transactions, 'id');
+
+        // 3. Eager Load Details (One Query)
+        // Select necessary columns only
+        $details = $this->transactionDetailModel
+            ->select('transaction_details.*, products.nama_barang, products.jenis_harga')
+            ->join('products', 'products.id = transaction_details.product_id', 'left')
+            ->whereIn('transaction_id', $transactionIds)
+            ->findAll();
+
+        // 4. Map Details to Transactions
+        $detailsMap = [];
+        foreach ($details as $d) {
+            $detailsMap[$d['transaction_id']][] = $d;
+        }
+        unset($details); // Free memory
+
         $grandTotal = 0;
         foreach($transactions as &$t) {
+            $t['items'] = $detailsMap[$t['id']] ?? [];
             $grandTotal += $t['grand_total'];
-            // Fetch items for this transaction
-            $t['items'] = $this->transactionDetailModel
-                ->select('transaction_details.*, products.nama_barang, products.jenis_harga')
-                ->join('products', 'products.id = transaction_details.product_id', 'left')
-                ->where('transaction_id', $t['id'])
-                ->findAll();
         }
 
         return view('pos/report_print', [
@@ -108,23 +130,44 @@ class Pos extends BaseController
             return "Please specify start and end dates";
         }
 
-        // Fetch ALL matching transactions (no limit)
+        // 1. Fetch Transactions (Read-Only)
         $transactions = $this->transactionModel
+            ->asArray()
             ->where("DATE(tgl_masuk) >=", $start_date)
             ->where("DATE(tgl_masuk) <=", $end_date)
             ->orderBy('tgl_masuk', 'ASC')
             ->findAll();
 
-        // Calculate Totals and Fetch Items
-        $grandTotal = 0;
-        foreach($transactions as &$t) {
-            $grandTotal += $t['grand_total'];
-            // Fetch items
-            $t['items'] = $this->transactionDetailModel
+        if (empty($transactions)) {
+             // Handle empty result gracefully
+             // ... download empty excel
+        }
+
+        // 2. Extract IDs
+        $transactionIds = array_column($transactions, 'id');
+
+        // 3. Eager Load Details
+        $details = [];
+        if (!empty($transactionIds)) {
+             $details = $this->transactionDetailModel
                 ->select('transaction_details.*, products.nama_barang')
                 ->join('products', 'products.id = transaction_details.product_id', 'left')
-                ->where('transaction_id', $t['id'])
+                ->whereIn('transaction_id', $transactionIds)
                 ->findAll();
+        }
+
+        // 4. Map Details
+        $detailsMap = [];
+        foreach ($details as $d) {
+            $detailsMap[$d['transaction_id']][] = $d;
+        }
+        unset($details);
+
+        // Calculate Totals and Attach Items
+        $grandTotal = 0;
+        foreach($transactions as &$t) {
+            $t['items'] = $detailsMap[$t['id']] ?? [];
+            $grandTotal += $t['grand_total'];
         }
 
         $filename = "Laporan_Penjualan_" . date('d-m-Y', strtotime($start_date)) . "_sd_" . date('d-m-Y', strtotime($end_date)) . ".xls";
@@ -293,10 +336,24 @@ class Pos extends BaseController
             $transactionId = $this->transactionModel->getInsertID();
 
             // 3. Handle Details (The Core Printing Logic)
+            
+            // Optimization: Fetch all products in one go
+            $itemIds = array_column($json->items, 'id');
+            if(empty($itemIds)) {
+                 // Should be caught by validation above but safe check
+                 throw new \Exception("No items to process");
+            }
+            
+            $productsRaw = $this->productModel->whereIn('id', $itemIds)->findAll();
+            $productsMap = [];
+            foreach($productsRaw as $p) {
+                $productsMap[$p['id']] = $p;
+            }
+
             foreach ($json->items as $item) {
-                // Verify Product Price Logic Server Side
-                $product = $this->productModel->find($item->id);
-                if (!$product) continue;
+                // Verify Product Price Logic Server Side (Using Map)
+                if (!isset($productsMap[$item->id])) continue;
+                $product = $productsMap[$item->id];
 
                 $panjang = $item->panjang ?? 1;
                 $lebar   = $item->lebar ?? 1;

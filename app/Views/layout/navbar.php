@@ -51,21 +51,21 @@
                     <!-- 5. Inventory (Products) -->
                     <?php if($session->get('role') == 'admin' || $session->get('role') == 'production'): ?>
                         <li class="nav-item">
-                            <a class="nav-link <?= uri_string() == 'admin/products' ? 'active' : '' ?>" href="/admin/products">Inventory</a>
+                            <a class="nav-link <?= strpos(uri_string(), 'admin/products') === 0 ? 'active' : '' ?>" href="/admin/products">Inventory</a>
                         </li>
                     <?php endif; ?>
 
                     <!-- 6. Content & Promos -->
                     <?php if($session->get('role') == 'admin' || $session->get('role') == 'production'): ?>
                         <li class="nav-item">
-                            <a class="nav-link <?= uri_string() == 'admin/promos' ? 'active' : '' ?>" href="/admin/promos">Content & Promos</a>
+                            <a class="nav-link <?= strpos(uri_string(), 'admin/promos') === 0 ? 'active' : '' ?>" href="/admin/promos">Content & Promos</a>
                         </li>
                     <?php endif; ?>
 
                     <!-- 7. Users (Admin Only) -->
                     <?php if($session->get('role') == 'admin'): ?>
                         <li class="nav-item">
-                            <a class="nav-link <?= uri_string() == 'admin/users' ? 'active' : '' ?>" href="/admin/users">Users</a>
+                            <a class="nav-link <?= strpos(uri_string(), 'admin/users') === 0 ? 'active' : '' ?>" href="/admin/users">Users</a>
                         </li>
                     <?php endif; ?>
 
