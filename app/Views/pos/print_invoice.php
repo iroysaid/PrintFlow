@@ -316,8 +316,8 @@
                         <?php if(!empty($item['nama_project'])): ?>
                             <span class="item-meta" style="color: #2563eb; font-weight: 500;">Project: <?= htmlspecialchars($item['nama_project']) ?></span>
                         <?php endif; ?>
-                        <?php if(!empty($item['catatan_finishing'])): ?>
-                            <span class="item-meta">Note: <?= htmlspecialchars($item['catatan_finishing']) ?></span>
+                        <?php if(!empty($item['catatan'])): ?>
+                            <span class="item-meta">Note: <?= htmlspecialchars($item['catatan']) ?></span>
                         <?php endif; ?>
                     </td>
                     <td style="text-align: right;"><?= number_format($item['harga_dasar'], 0, ',', '.') ?></td>

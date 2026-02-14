@@ -13,7 +13,8 @@ class TransactionModel extends Model
     protected $allowedFields    = [
         'no_invoice', 'customer_id', 'customer_name', 'customer_phone', 'tgl_masuk', 'estimasi_hari', 
         'tgl_selesai', 'total_asli', 'diskon', 'grand_total', 'nominal_bayar', 
-        'sisa_bayar', 'metode_bayar', 'status_bayar', 'status_produksi', 'user_id'
+        'sisa_bayar', 'metode_bayar', 'status_bayar', 'status_produksi', 'user_id',
+        'order_notes', 'deadline'
     ];
 
     // Dates
@@ -30,7 +31,7 @@ class TransactionModel extends Model
     public function getProductionQueue()
     {
         return $this->whereIn('status_produksi', ['queue', 'design', 'printing', 'finishing'])
-                    ->orderBy('tgl_selesai', 'ASC') // Deadline priority
+                    ->orderBy('id', 'DESC') // Newest orders first
                     ->findAll();
     }
 }

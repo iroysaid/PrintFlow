@@ -40,13 +40,13 @@
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
-                    <thead class="bg-light">
+                    <thead class="bg-light text-primary" style="--bs-table-color: var(--bs-primary);">
                         <tr>
-                            <th class="ps-3">Invoice</th>
-                            <th>Customer</th>
-                            <th>Deadline</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th class="ps-3 text-primary">Invoice</th>
+                            <th class="text-primary">Customer</th>
+                            <th class="text-primary">Deadline</th>
+                            <th class="text-primary">Status</th>
+                            <th class="text-primary">Action</th>
                         </tr>
                     </thead>
                     <tbody>

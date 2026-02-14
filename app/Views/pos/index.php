@@ -132,7 +132,7 @@
                         </div>
 
                         <!-- Finishing Note -->
-                        <textarea x-model="item.catatan_finishing" class="form-control form-control-sm bg-light" rows="1" placeholder="Finishing: Mata ayam, Lipat, dll..."></textarea>
+                        <textarea x-model="item.catatan" class="form-control form-control-sm bg-light" rows="1" placeholder="Catatan / Keterangan..."></textarea>
                     </div>
                 </div>
             </template>
@@ -354,7 +354,7 @@ function posApp() {
                 qty: 1,
                 panjang: 1,
                 lebar: 1,
-                catatan_finishing: '',
+                catatan: '',
                 diskon_persen: 0,
                 subtotal: 0
             };

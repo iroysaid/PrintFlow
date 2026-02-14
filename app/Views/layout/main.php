@@ -20,7 +20,11 @@
 
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <!-- Favicon -->
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg?v=3">
+    <link rel="shortcut icon" href="/images/logo.svg?v=3">
+    <link rel="apple-touch-icon" href="/images/logo.svg?v=3">
 </head>
 
 <body class="d-flex flex-column min-vh-100">

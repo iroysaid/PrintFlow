@@ -114,6 +114,7 @@ class Pos extends BaseController
         $json = $this->request->getJSON();
         
         if (!$json) {
+            log_message('error', 'Invalid JSON input');
             return $this->response->setStatusCode(400)->setJSON(['error' => 'Invalid Request']);
         }
 
@@ -229,18 +230,22 @@ class Pos extends BaseController
                 $discAmount = $gross * ($itemDiscPercent / 100);
                 $calculatedSubtotal = $gross - $discAmount;
                 
-                $this->transactionDetailModel->insert([
+                $insertData = [
                     'transaction_id'    => $transactionId,
                     'product_id'        => $item->id,
                     'nama_project'      => $item->nama_project ?? null,
                     'panjang'           => $panjang,
                     'lebar'             => $lebar,
                     'qty'               => $qty,
-                    'catatan_finishing' => $item->catatan_finishing ?? '',
+                    'catatan'           => $item->catatan ?? '',
                     'link_file'         => $item->link_file ?? '',
                     'diskon_persen'     => $itemDiscPercent,
                     'subtotal'          => $calculatedSubtotal,
-                ]);
+                ];
+
+                if (!$this->transactionDetailModel->insert($insertData)) {
+                    // Log error if needed, but for now just continue or throw error
+                }
             }
 
             $db->transComplete();

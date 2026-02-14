@@ -12,9 +12,23 @@
                 <?php if($session->get('logged_in')): ?>
                     
                     <!-- 1. Dashboard -->
-                    <?php if($session->get('role') == 'admin' || $session->get('role') == 'production'): ?>
+                    <!-- 1. Dashboard -->
+                    <?php if($session->get('role') == 'admin'): ?>
                         <li class="nav-item">
                             <a class="nav-link <?= uri_string() == 'admin/dashboard' ? 'active' : '' ?>" href="/admin/dashboard">Dashboard</a>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php if($session->get('role') == 'production'): ?>
+                        <li class="nav-item">
+                            <a class="nav-link <?= uri_string() == 'production/dashboard' ? 'active' : '' ?>" href="/production/dashboard">Dashboard</a>
+                        </li>
+                    <?php endif; ?>
+
+                    <!-- 1b. Production Board (For Admin visibility) -->
+                    <?php if($session->get('role') == 'admin'): ?>
+                        <li class="nav-item">
+                            <a class="nav-link <?= uri_string() == 'production/dashboard' ? 'active' : '' ?>" href="/production/dashboard">Production</a>
                         </li>
                     <?php endif; ?>
 

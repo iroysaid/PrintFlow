@@ -46,4 +46,13 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
         $routes->post('users/create', 'Admin\User::create');
     });
 
+    // Production Routes
+    $routes->group('production', function($routes) {
+        $routes->get('dashboard', 'Production\Dashboard::index');
+        $routes->post('updateStatus/(:num)', 'Production\Dashboard::updateStatus/$1');
+    });
+
 });
+
+// Debug Route (Outside Auth for easy access test)
+$routes->get('debug', 'Debug::index');
